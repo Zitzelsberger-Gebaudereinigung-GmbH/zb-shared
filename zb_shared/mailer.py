@@ -63,7 +63,20 @@ def _build_payload(
             content = att.get("content")
             if isinstance(content, (bytes, bytearray)):
                 content = base64.b64encode(bytes(content)).decode("ascii")
-            norm.append({"filename": att.get("filename", "anhang"), "content": content})
+            eintrag = {"filename": att.get("filename", "anhang"), "content": content}
+            # Zusatzfelder nur durchreichen, wenn sie gesetzt sind — sonst schickt
+            # jede Mail leere Felder mit.
+            #
+            # `content_id` ist der Grund fuer diesen Block: Damit laesst sich ein
+            # Bild INLINE einbetten und im HTML per `cid:<wert>` ansprechen. Der
+            # bisherige Code hat alles ausser Name und Inhalt verworfen — ein
+            # eingebettetes Logo war damit nicht moeglich. Eine `data:`-URI ist
+            # KEIN Ersatz: Gmail und die meisten Webmailer blockieren sie.
+            for feld in ("content_id", "content_type", "disposition", "path"):
+                wert = att.get(feld)
+                if wert:
+                    eintrag[feld] = wert
+            norm.append(eintrag)
         payload["attachments"] = norm
     return payload
 
