@@ -1,0 +1,1025 @@
+<title>Darf ich hier arbeiten?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --brand:#00A7B7; --brand-deep:#007986; --brand-ink:#0B2F35;
+  --ground:#F4F7F8; --panel:#FFFFFF; --sunk:#EBF1F2; --bar:#10242C;
+  --ink:#10242C; --ink-2:#3E555E; --ink-3:#6E848C;
+  --rule:#D8E3E6; --rule-soft:#E7EEF0;
+  --wash:#E1F4F7;
+  --rot:#B4341F; --rot-w:#FAEAE7; --gelb:#9A6206; --gelb-w:#FBF1DF;
+  --gruen:#26694A; --gruen-w:#E5F1EA; --grau:#6E848C; --grau-w:#EBF1F2;
+  --shadow:0 1px 2px rgba(16,36,44,.05),0 10px 30px rgba(16,36,44,.07);
+  --display:"Archivo",-apple-system,"Segoe UI",sans-serif;
+  --body:"Source Serif 4",Georgia,serif;
+  --ui:"Archivo",-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0B181E; --panel:#132831; --sunk:#0E212A; --bar:#061217;
+  --ink:#E9F2F4; --ink-2:#B0C5CC; --ink-3:#7F979F;
+  --rule:#23414C; --rule-soft:#1B353F; --wash:#0E3239; --brand-deep:#4CC9D6;
+  --rot:#F08A75; --rot-w:#3A211C; --gelb:#E0AC5A; --gelb-w:#33280F;
+  --gruen:#68C296; --gruen-w:#123124; --grau:#8AA1A9; --grau-w:#17303A;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --ground:#0B181E; --panel:#132831; --sunk:#0E212A; --bar:#061217;
+  --ink:#E9F2F4; --ink-2:#B0C5CC; --ink-3:#7F979F;
+  --rule:#23414C; --rule-soft:#1B353F; --wash:#0E3239; --brand-deep:#4CC9D6;
+  --rot:#F08A75; --rot-w:#3A211C; --gelb:#E0AC5A; --gelb-w:#33280F;
+  --gruen:#68C296; --gruen-w:#123124; --grau:#8AA1A9; --grau-w:#17303A;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.2;text-wrap:balance;letter-spacing:-.012em}
+p{margin:0}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- Markenleiste ---------- */
+.brandbar{background:var(--bar);border-bottom:3px solid var(--brand)}
+.brandbar-in{max-width:1300px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brandbar img{height:25px;width:auto;display:block}
+.brandbar .kind{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+
+/* ---------- Kopf ---------- */
+.top{max-width:1300px;margin:0 auto;padding:34px 22px 0}
+.top .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--brand-deep)}
+.top h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-.025em;margin:10px 0 12px}
+.top p{max-width:66ch;color:var(--ink-2)}
+.warnstrip{display:flex;gap:10px;align-items:flex-start;background:var(--gelb-w);border-left:3px solid var(--gelb);border-radius:0 3px 3px 0;padding:12px 16px;margin-top:20px;max-width:74ch;font-size:.9rem;color:var(--ink-2)}
+.warnstrip b{color:var(--ink)}
+
+/* ---------- Rollenwahl ---------- */
+.roles{max-width:1300px;margin:26px auto 0;padding:0 22px;display:flex;gap:10px;flex-wrap:wrap}
+.role{display:flex;flex-direction:column;gap:3px;align-items:flex-start;padding:11px 16px;border:1px solid var(--rule);border-radius:4px;background:var(--panel);transition:border-color .12s,background .12s}
+.role:hover{border-color:var(--brand)}
+.role[aria-pressed="true"]{background:var(--brand);border-color:var(--brand)}
+.role .rn{font-family:var(--ui);font-weight:600;font-size:.95rem}
+.role .rd{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-3)}
+.role[aria-pressed="true"] .rn,.role[aria-pressed="true"] .rd{color:#fff}
+.role[aria-pressed="true"] .rd{opacity:.75}
+
+/* ---------- Bühne ---------- */
+.stage{max-width:1300px;margin:0 auto;padding:30px 22px 90px;display:grid;grid-template-columns:minmax(0,364px) minmax(0,1fr);gap:38px;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr;gap:26px}}
+
+/* ---------- Telefon ---------- */
+.phone{position:sticky;top:22px;justify-self:center;width:100%;max-width:364px}
+@media (max-width:900px){.phone{position:static}}
+.device{background:var(--bar);border-radius:34px;padding:11px;box-shadow:0 2px 4px rgba(16,36,44,.1),0 24px 60px rgba(16,36,44,.22)}
+.screen{background:var(--panel);border-radius:25px;overflow:hidden;height:660px;display:flex;flex-direction:column;position:relative}
+.statusbar{background:var(--bar);color:rgba(255,255,255,.82);font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;padding:7px 16px 9px;display:flex;justify-content:space-between}
+.appbar{background:var(--brand);color:#fff;padding:11px 15px;display:flex;align-items:center;gap:11px;min-height:50px}
+.appbar .back{width:26px;height:26px;display:grid;place-items:center;border-radius:50%;flex:none}
+.appbar .back:hover{background:rgba(255,255,255,.16)}
+.appbar .t{font-family:var(--ui);font-weight:600;font-size:.95rem;line-height:1.2;flex:1;min-width:0}
+.appbar .s{font-family:var(--mono);font-size:.6rem;opacity:.8;display:block;font-weight:400;letter-spacing:.06em;margin-top:1px}
+.view{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:16px 15px 22px;display:flex;flex-direction:column;gap:14px;font-family:var(--ui);font-size:.9rem}
+.view::-webkit-scrollbar{width:5px}
+.view::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+.tabbar{display:flex;border-top:1px solid var(--rule);background:var(--panel)}
+.tabbar button{flex:1;padding:9px 3px 11px;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--ui);font-size:.62rem;font-weight:600;color:var(--ink-3)}
+.tabbar button[aria-current="true"]{color:var(--brand-deep)}
+.tabbar svg{width:19px;height:19px}
+
+/* ---------- Bausteine im Telefon ---------- */
+.eb{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:13px 14px;display:flex;flex-direction:column;gap:8px}
+.card.sunk{background:var(--sunk);border-color:transparent}
+.h{font-family:var(--ui);font-weight:600;font-size:1.02rem;line-height:1.28}
+.sub{font-size:.82rem;color:var(--ink-2);line-height:1.45}
+.tiny{font-size:.72rem;color:var(--ink-3);line-height:1.45}
+.btn{background:var(--brand);color:#fff;font-family:var(--ui);font-weight:600;font-size:.9rem;padding:12px 16px;border-radius:5px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.btn:hover{background:var(--brand-deep)}
+.btn.ghost{background:transparent;color:var(--brand-deep);border:1px solid var(--rule)}
+.btn.ghost:hover{background:var(--wash)}
+.btn.quiet{background:var(--sunk);color:var(--ink-2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:8px}
+.row>*{flex:1}
+.pill{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:3px;white-space:nowrap}
+.p-rot{background:var(--rot-w);color:var(--rot)}
+.p-gelb{background:var(--gelb-w);color:var(--gelb)}
+.p-gruen{background:var(--gruen-w);color:var(--gruen)}
+.p-grau{background:var(--grau-w);color:var(--grau)}
+.p-brand{background:var(--wash);color:var(--brand-deep)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.d-rot{background:var(--rot)}.d-gelb{background:var(--gelb)}.d-gruen{background:var(--gruen)}.d-grau{background:var(--grau)}
+
+/* Objektliste */
+.obj{display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);width:100%;text-align:left}
+.obj:hover{border-color:var(--brand)}
+.obj .ob{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.obj .on{font-family:var(--ui);font-weight:600;font-size:.92rem}
+.obj .os{font-size:.74rem;color:var(--ink-3)}
+.obj .oc{font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--ink-3)}
+
+/* Personenzeile */
+.person{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--rule-soft)}
+.person:last-child{border-bottom:0}
+.av{width:31px;height:31px;border-radius:50%;background:var(--wash);color:var(--brand-deep);display:grid;place-items:center;font-family:var(--ui);font-weight:600;font-size:.76rem;flex:none}
+.person .pb{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.person .pn{font-family:var(--ui);font-weight:600;font-size:.86rem}
+.person .pr{font-size:.72rem;color:var(--ink-3);line-height:1.35}
+.lang{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.06em;background:var(--sunk);color:var(--ink-3);padding:2px 5px;border-radius:3px}
+
+/* Sprechzettel */
+.script{background:var(--sunk);border-radius:6px;padding:13px 14px;font-size:.92rem;line-height:1.62;display:flex;flex-direction:column;gap:9px}
+.script .l{display:flex;gap:9px;align-items:flex-start}
+.script .n{font-family:var(--mono);font-size:.62rem;font-weight:600;color:var(--brand-deep);padding-top:4px;flex:none}
+
+/* Audio */
+.audio{display:flex;align-items:center;gap:11px;background:var(--wash);border-radius:6px;padding:11px 13px}
+.audio button{width:37px;height:37px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;flex:none}
+.audio .ab{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.audio .at{font-family:var(--ui);font-weight:600;font-size:.82rem;color:var(--brand-ink)}
+.wave{display:flex;gap:2px;align-items:flex-end;height:14px}
+.wave i{width:2px;background:var(--brand);border-radius:1px;height:4px;opacity:.45}
+.wave.on i{animation:w .9s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.2s}
+.wave i:nth-child(4){animation-delay:.3s}.wave i:nth-child(5){animation-delay:.4s}
+.wave i:nth-child(6){animation-delay:.5s}.wave i:nth-child(7){animation-delay:.6s}
+@keyframes w{0%,100%{height:4px;opacity:.45}50%{height:14px;opacity:1}}
+
+/* Piktogramm-Antworten */
+.picks{display:flex;flex-direction:column;gap:9px}
+.pick{display:flex;align-items:center;gap:12px;padding:11px 12px;border:2px solid var(--rule);border-radius:7px;background:var(--panel);width:100%;text-align:left}
+.pick:hover{border-color:var(--brand)}
+.pick .pi{width:42px;height:42px;flex:none}
+.pick .pl{font-family:var(--ui);font-weight:600;font-size:.92rem;flex:1}
+.pick.ok{border-color:var(--gruen);background:var(--gruen-w)}
+.pick.no{border-color:var(--rot);background:var(--rot-w)}
+.pick .mk{font-family:var(--mono);font-size:.72rem;font-weight:600}
+.pick.ok .mk{color:var(--gruen)}.pick.no .mk{color:var(--rot)}
+
+/* Quittierung */
+.confirm{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--rule);border-radius:6px;width:100%;text-align:left}
+.confirm .bx{width:21px;height:21px;border:2px solid var(--ink-3);border-radius:4px;flex:none;display:grid;place-items:center;margin-top:1px}
+.confirm[aria-pressed="true"]{border-color:var(--brand);background:var(--wash)}
+.confirm[aria-pressed="true"] .bx{background:var(--brand);border-color:var(--brand);color:#fff}
+.pin{display:flex;gap:7px;justify-content:center}
+.pin i{width:13px;height:13px;border-radius:50%;background:var(--rule)}
+.pin i.f{background:var(--brand)}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.keys button{background:var(--sunk);border-radius:6px;padding:13px 0;font-family:var(--mono);font-size:1.06rem;font-weight:500}
+.keys button:hover{background:var(--wash)}
+
+/* Praxischeck */
+.crit{display:flex;flex-direction:column;gap:7px;padding:11px 0;border-bottom:1px solid var(--rule-soft)}
+.crit:last-of-type{border-bottom:0}
+.crit .ct{font-size:.86rem;line-height:1.4;display:flex;gap:7px;align-items:flex-start}
+.rate{display:flex;gap:5px}
+.rate button{flex:1;padding:7px 3px;border-radius:5px;background:var(--sunk);font-family:var(--ui);font-size:.7rem;font-weight:600;color:var(--ink-3)}
+.rate button[aria-pressed="true"]{color:#fff}
+.rate button.y[aria-pressed="true"]{background:var(--gruen)}
+.rate button.m[aria-pressed="true"]{background:var(--gelb)}
+.rate button.n[aria-pressed="true"]{background:var(--rot)}
+
+/* Nachweis / Kann-Ich-Karte */
+.doc{border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.doc .dh{background:var(--sunk);padding:10px 13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.doc .dr{display:flex;justify-content:space-between;gap:12px;padding:8px 13px;border-top:1px solid var(--rule-soft);font-size:.78rem}
+.doc .dr span:first-child{color:var(--ink-3);flex:none}
+.doc .dr span:last-child{font-family:var(--mono);text-align:right}
+.skill{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--rule-soft)}
+.skill:last-child{border-bottom:0}
+.skill .sn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.skill .snn{font-family:var(--ui);font-weight:600;font-size:.87rem}
+.skill .sl{font-size:.72rem;color:var(--ink-3)}
+.steps{display:flex;gap:3px;margin-top:5px}
+.steps i{height:4px;flex:1;border-radius:2px;background:var(--rule)}
+.steps i.on{background:var(--brand)}
+.steps i.obs{background:var(--gruen)}
+
+/* Learni */
+.bub{padding:10px 12px;border-radius:11px;font-size:.85rem;line-height:1.5;max-width:88%}
+.bub.l{background:var(--sunk);border-bottom-left-radius:3px;align-self:flex-start}
+.bub.u{background:var(--brand);color:#fff;border-bottom-right-radius:3px;align-self:flex-end}
+.src{display:flex;gap:6px;align-items:center;margin-top:7px;padding-top:7px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:.63rem;color:var(--ink-3)}
+.guard{background:var(--gelb-w);border-left:3px solid var(--gelb);border-radius:0 5px 5px 0;padding:10px 12px;font-size:.82rem;line-height:1.45;color:var(--ink-2)}
+.guard svg{width:14px;height:14px;display:inline-block;vertical-align:-2px;margin-right:4px}
+.chatin{display:flex;gap:7px;align-items:center;padding:9px 11px;border-top:1px solid var(--rule);background:var(--panel)}
+.chatin input{flex:1;border:1px solid var(--rule);border-radius:20px;padding:9px 13px;font-family:var(--ui);font-size:.84rem;background:var(--ground);color:var(--ink)}
+.chatin button.mic{width:36px;height:36px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;flex:none}
+
+/* QR */
+.qr{display:grid;place-items:center;gap:13px;padding:18px 0}
+.qrbox{width:135px;height:135px;background:#fff;border-radius:8px;display:grid;place-items:center;padding:9px;box-shadow:var(--shadow)}
+
+/* ---------- Erläuterungsspalte ---------- */
+.rail{display:flex;flex-direction:column;gap:20px;min-width:0}
+.rail h2{font-size:1.4rem;font-weight:600}
+.rail .lede{color:var(--ink-2);max-width:62ch}
+.note{background:var(--panel);border:1px solid var(--rule);border-radius:5px;box-shadow:var(--shadow);overflow:hidden}
+.note .nh{padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.note .nh h3{font-size:1.02rem;font-weight:600;flex:1;min-width:180px}
+.note .nb{padding:15px 18px;display:flex;flex-direction:column;gap:12px;font-size:.94rem;color:var(--ink-2)}
+.note .nb b{color:var(--ink);font-weight:600}
+.fixline{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:baseline;background:var(--sunk);border-radius:4px;padding:10px 13px;font-size:.88rem}
+.fixline .fl{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--gruen)}
+.ctrl{display:flex;flex-wrap:wrap;gap:16px;background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:14px 18px}
+.ctrl .grp{display:flex;flex-direction:column;gap:7px}
+.ctrl .gl{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{padding:6px 11px;border-radius:4px;background:var(--sunk);font-family:var(--ui);font-size:.8rem;font-weight:600;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.flow{display:flex;flex-wrap:wrap;gap:5px}
+.flow button{padding:6px 10px;border-radius:4px;background:var(--panel);border:1px solid var(--rule);font-family:var(--mono);font-size:.7rem;color:var(--ink-3)}
+.flow button[aria-current="true"]{border-color:var(--brand);color:var(--brand-deep);background:var(--wash)}
+.flow button:hover{border-color:var(--brand)}
+.scope{border-top:1px solid var(--rule);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.scope h3{font-size:.98rem;font-weight:600}
+.scope ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:6px}
+.scope li{font-size:.88rem;color:var(--ink-2)}
+.scope li::marker{color:var(--brand)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+</style>
+
+<div class="brandbar">
+  <div class="brandbar-in">
+    <img src="data:image/png;base64,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" alt="Zitzelsberger Gebäudereinigung">
+    <span class="kind">Prototyp · Konzeptreferenz</span>
+  </div>
+</div>
+
+<header class="top">
+  <span class="eyebrow">LEARNI OS · Vertical Slice</span>
+  <h1>Die grüne Objektmappe</h1>
+  <p>Der Prototyp zum korrigierten Konzept. Er beginnt nicht beim Kurskatalog, sondern bei der Frage,
+  die kein Lernsystem am Markt beantwortet: <em>Darf diese Person heute in diesem Objekt arbeiten —
+  und kann sie es nachweislich?</em> Wählen Sie eine Rolle und klicken Sie sich durch; die Spalte
+  rechts erklärt zu jedem Bildschirm, was hier anders ist als im ursprünglichen Entwurf.</p>
+  <div class="warnstrip"><span>⚠</span><span><b>Konzeptreferenz, keine Produktionscodebasis.</b>
+  Alle Personen, Objekte und Nachweise sind erfunden. Es werden keine personenbezogenen Daten
+  verarbeitet. Rechtliche Hinweise im Text ersetzen keine anwaltliche Prüfung.</span></div>
+</header>
+
+<div class="roles" id="roles"></div>
+
+<main class="stage">
+  <div class="phone"><div class="device"><div class="screen" id="screen"></div></div></div>
+  <div class="rail" id="rail"></div>
+</main>
+
+<script>
+/* ===== Inhalt: Sprache × Register (standard | einfach) =====
+   Register ist bewusst eine eigene Dimension neben der Sprache —
+   es gibt "Türkisch, einfach", nicht nur "Einfache Sprache" auf Deutsch. */
+const LANGS = {
+  de:{name:"Deutsch", tag:"DE", speech:"de-DE"},
+  pl:{name:"Polski",  tag:"PL", speech:"pl-PL"},
+  ro:{name:"Română",  tag:"RO", speech:"ro-RO"},
+  tr:{name:"Türkçe",  tag:"TR", speech:"tr-TR"}
+};
+
+const UI = {
+  de:{heute:"Heute",schicht:"Objekt Nordlicht · 5:30–9:30",anhoeren:"Anhören",pause:"Pause",
+      weiter:"Weiter",fertig:"Fertig",frage:"Frage",von:"von",richtig:"Richtig.",leider:"Noch nicht.",
+      nochmal:"Nochmal versuchen",bestaetigen:"Bestätigen",quittung:"Quittierung",
+      quittungH:"Bitte bestätige, was stimmt",pinH:"Deine PIN",pinS:"Vier Ziffern",
+      karte:"Meine Karte",learni:"Learni fragen",lernzeit:"Bezahlte Lernzeit heute",
+      unterweisung:"Unterweisung",gehoert:"Gehört",erledigt:"Erledigt",offen:"Offen",
+      kannIch:"Das kann ich",wissen:"Wissen",beobachtet:"Beobachtet",
+      nachweis:"Mein Nachweis",gueltig:"Gültig bis",fragen:"Frag mich etwas …",
+      hinweis:"Deine Fragen an Learni sieht niemand aus der Führung. Sie werden nach 24 Stunden gelöscht.",
+      vorlesen:"Wird vorgelesen",sprache:"Sprache",einfach:"Einfache Sprache",
+      willkommen:"Willkommen bei Zitzelsberger",scanne:"Scanne den Code am Putzwagen",
+      dankeH:"Danke, Anna.",dankeS:"Deine Unterweisung ist gespeichert. Der Nachweis liegt in deiner Karte.",
+      bezahlt:"Wird als Arbeitszeit vergütet.",dauer:"Ungefähr 4 Minuten. Du kannst alles anhören.",
+      fbOk:"Genau deshalb wechselt ein Tuch nie den Bereich.",fbNo:"Kein Problem. Du kannst es so oft versuchen, wie du willst. Es wird nichts gezählt.",
+      nachgesprochen:"Deine Objektleitung hat das eben vorgesprochen. Hier kannst du es so oft anhören, wie du willst.",
+      keinRanking:"Keine Serie, keine Punkte, keine Rangliste. Was zählt, ist was du sicher kannst.",
+      keinStift:"Es gibt keine Unterschrift mit dem Finger. Du bist angemeldet, das genügt.",
+      postH:"In vier Wochen kommt Post.",postS:"Ein gedrucktes Können-Zeugnis mit deinem Namen, zweisprachig, unterschrieben von der Geschäftsführung. Nach Hause, auf Papier.",
+      legende:"Grün heißt: jemand hat dir dabei zugesehen. Türkis heißt: du weißt, wie es geht.",
+      karteNote:"„Gefahrstoffe & Dosierung“ steht auf „unter Aufsicht“, weil bisher nur der Wissenscheck vorliegt. Die nächste Stufe gibt es erst nach einem Praxischeck, nicht durch ein weiteres Quiz.",
+      learniHi:"Hallo Anna. Ich erkläre dir Sachen aus den freigegebenen Unterlagen — in deiner Sprache, so einfach du willst."},
+  pl:{heute:"Dzisiaj",schicht:"Obiekt Nordlicht · 5:30–9:30",anhoeren:"Słuchaj",pause:"Pauza",
+      weiter:"Dalej",fertig:"Gotowe",frage:"Pytanie",von:"z",richtig:"Dobrze.",leider:"Jeszcze nie.",
+      nochmal:"Spróbuj jeszcze raz",bestaetigen:"Potwierdź",quittung:"Potwierdzenie",
+      quittungH:"Potwierdź, co się zgadza",pinH:"Twój PIN",pinS:"Cztery cyfry",
+      karte:"Moja karta",learni:"Zapytaj Learni",lernzeit:"Płatny czas nauki dzisiaj",
+      unterweisung:"Instruktaż",gehoert:"Wysłuchane",erledigt:"Zrobione",offen:"Otwarte",
+      kannIch:"To potrafię",wissen:"Wiedza",beobachtet:"Zaobserwowane",
+      nachweis:"Moje zaświadczenie",gueltig:"Ważne do",fragen:"Zapytaj mnie o coś …",
+      hinweis:"Twoich pytań do Learni nikt z kierownictwa nie widzi. Są usuwane po 24 godzinach.",
+      vorlesen:"Odczytywanie",sprache:"Język",einfach:"Prosty język",
+      willkommen:"Witamy w Zitzelsberger",scanne:"Zeskanuj kod na wózku",
+      dankeH:"Dziękujemy, Anna.",dankeS:"Twój instruktaż został zapisany. Zaświadczenie jest w Twojej karcie.",
+      bezahlt:"Płatne jako czas pracy.",dauer:"Około 4 minuty. Możesz wszystkiego wysłuchać.",
+      fbOk:"Właśnie dlatego ściereczka nigdy nie zmienia obszaru.",fbNo:"Nic się nie stało. Możesz próbować tyle razy, ile chcesz. Nic nie jest liczone.",
+      nachgesprochen:"Twoja kierowniczka obiektu właśnie to omówiła. Tutaj możesz posłuchać tyle razy, ile chcesz.",
+      keinRanking:"Bez serii, bez punktów, bez rankingu. Liczy się to, co potrafisz bezpiecznie zrobić.",
+      keinStift:"Nie ma podpisu palcem. Jesteś zalogowana, to wystarczy.",
+      postH:"Za cztery tygodnie przyjdzie list.",postS:"Drukowane zaświadczenie o umiejętnościach z Twoim imieniem, dwujęzyczne, podpisane przez zarząd. Do domu, na papierze.",
+      legende:"Zielony znaczy: ktoś Ci się przyglądał. Turkusowy znaczy: wiesz, jak to zrobić.",
+      karteNote:"„Substancje niebezpieczne i dozowanie” są na poziomie „pod nadzorem”, bo jest tylko test wiedzy. Następny poziom dopiero po sprawdzeniu w praktyce, nie przez kolejny test.",
+      learniHi:"Cześć Anna. Wyjaśniam rzeczy z zatwierdzonych dokumentów — w Twoim języku, tak prosto, jak chcesz."},
+  ro:{heute:"Astăzi",schicht:"Obiectiv Nordlicht · 5:30–9:30",anhoeren:"Ascultă",pause:"Pauză",
+      weiter:"Continuă",fertig:"Gata",frage:"Întrebarea",von:"din",richtig:"Corect.",leider:"Încă nu.",
+      nochmal:"Mai încearcă o dată",bestaetigen:"Confirmă",quittung:"Confirmare",
+      quittungH:"Confirmă ce este adevărat",pinH:"PIN-ul tău",pinS:"Patru cifre",
+      karte:"Cardul meu",learni:"Întreabă Learni",lernzeit:"Timp de învățare plătit azi",
+      unterweisung:"Instruire",gehoert:"Ascultat",erledigt:"Finalizat",offen:"Deschis",
+      kannIch:"Asta pot",wissen:"Cunoștințe",beobachtet:"Observat",
+      nachweis:"Dovada mea",gueltig:"Valabil până la",fragen:"Întreabă-mă ceva …",
+      hinweis:"Întrebările tale către Learni nu sunt vizibile pentru conducere. Se șterg după 24 de ore.",
+      vorlesen:"Se citește",sprache:"Limba",einfach:"Limbaj simplu",
+      willkommen:"Bine ai venit la Zitzelsberger",scanne:"Scanează codul de pe cărucior",
+      dankeH:"Mulțumim, Anna.",dankeS:"Instruirea ta a fost salvată. Dovada este în cardul tău.",
+      bezahlt:"Plătit ca timp de lucru.",dauer:"Aproximativ 4 minute. Poți asculta tot.",
+      fbOk:"Exact de aceea o lavetă nu schimbă niciodată zona.",fbNo:"Nicio problemă. Poți încerca de câte ori vrei. Nu se numără nimic.",
+      nachgesprochen:"Șefa de obiectiv tocmai a explicat asta. Aici poți asculta de câte ori vrei.",
+      keinRanking:"Fără serii, fără puncte, fără clasament. Contează ce poți face în siguranță.",
+      keinStift:"Nu există semnătură cu degetul. Ești autentificată, este suficient.",
+      postH:"În patru săptămâni vine o scrisoare.",postS:"Un certificat de competențe tipărit, cu numele tău, bilingv, semnat de conducere. Acasă, pe hârtie.",
+      legende:"Verde înseamnă: cineva te-a observat. Turcoaz înseamnă: știi cum se face.",
+      karteNote:"„Substanțe periculoase și dozare” este la „sub supraveghere”, pentru că există doar testul de cunoștințe. Nivelul următor vine doar după o verificare practică, nu printr-un alt test.",
+      learniHi:"Bună, Anna. Îți explic lucruri din documentele aprobate — în limba ta, cât de simplu vrei."},
+  tr:{heute:"Bugün",schicht:"Nordlicht binası · 5:30–9:30",anhoeren:"Dinle",pause:"Duraklat",
+      weiter:"Devam",fertig:"Bitti",frage:"Soru",von:"/",richtig:"Doğru.",leider:"Henüz değil.",
+      nochmal:"Tekrar dene",bestaetigen:"Onayla",quittung:"Onay",
+      quittungH:"Doğru olanı onayla",pinH:"PIN kodun",pinS:"Dört rakam",
+      karte:"Kartım",learni:"Learni'ye sor",lernzeit:"Bugün ücretli öğrenme süresi",
+      unterweisung:"Eğitim",gehoert:"Dinlendi",erledigt:"Tamamlandı",offen:"Açık",
+      kannIch:"Bunu yapabilirim",wissen:"Bilgi",beobachtet:"Gözlemlendi",
+      nachweis:"Belgem",gueltig:"Geçerlilik",fragen:"Bana bir şey sor …",
+      hinweis:"Learni'ye sorduklarını yönetimden kimse göremez. 24 saat sonra silinir.",
+      vorlesen:"Sesli okunuyor",sprache:"Dil",einfach:"Kolay dil",
+      willkommen:"Zitzelsberger'e hoş geldin",scanne:"Temizlik arabasındaki kodu okut",
+      dankeH:"Teşekkürler, Anna.",dankeS:"Eğitimin kaydedildi. Belge kartında.",
+      bezahlt:"Çalışma süresi olarak ödenir.",dauer:"Yaklaşık 4 dakika. Her şeyi dinleyebilirsin.",
+      fbOk:"Tam da bu yüzden bir bez asla alan değiştirmez.",fbNo:"Sorun değil. İstediğin kadar deneyebilirsin. Hiçbir şey sayılmıyor.",
+      nachgesprochen:"Bina sorumlun bunu az önce anlattı. Burada istediğin kadar dinleyebilirsin.",
+      keinRanking:"Seri yok, puan yok, sıralama yok. Önemli olan güvenle yapabildiklerin.",
+      keinStift:"Parmakla imza yok. Giriş yaptın, bu yeterli.",
+      postH:"Dört hafta içinde posta gelecek.",postS:"Adının yazdığı, iki dilli, yönetim tarafından imzalanmış basılı bir yeterlilik belgesi. Eve, kâğıt olarak.",
+      legende:"Yeşil: biri seni izledi. Turkuaz: nasıl yapıldığını biliyorsun.",
+      karteNote:"„Tehlikeli maddeler ve dozaj“ „gözetim altında“ seviyesinde, çünkü sadece bilgi testi var. Bir sonraki seviye ancak uygulamalı kontrolle gelir, başka bir testle değil.",
+      learniHi:"Merhaba Anna. Onaylı belgelerden şeyleri açıklarım — kendi dilinde, istediğin kadar basit."}
+};
+
+const C = {
+  de:{title:"Die Vier-Farben-Methode",
+    std:["Die Vier-Farben-Methode verhindert Kreuzkontamination. Jeder Bereich hat eine eigene Tuchfarbe.",
+         "Rot ist für Sanitärbereiche mit hoher Keimbelastung: WC-Becken und Urinale.",
+         "Gelb ist für die übrigen Sanitärbereiche: Waschbecken, Armaturen, Spiegel.",
+         "Grün ist für Küchen und Teeküchen. Blau ist für Büro- und Möbelflächen.",
+         "Ein Tuch wechselt nie den Bereich. Benutzte Tücher kommen in den Abwurfsack."],
+    ez:["Jede Farbe hat einen Platz.","Rot ist für das WC.","Gelb ist für das Waschbecken.",
+        "Grün ist für die Küche. Blau ist für den Schreibtisch.",
+        "Ein Tuch bleibt in seinem Bereich. Benutzte Tücher kommen in den Sack."],
+    q:[{std:"Welche Farbe für das WC-Becken?",ez:"Welche Farbe für das WC?"},
+       {std:"Ein Tuch war im Sanitärbereich. Wohin kommt es?",ez:"Das Tuch war im WC. Wohin kommt es?"},
+       {std:"Welche Farbe für die Teeküche?",ez:"Welche Farbe für die Küche?"}],
+    a:{rot:"Rot",gelb:"Gelb",gruen:"Grün",blau:"Blau",sack:"In den Abwurfsack",eimer:"Zurück in den Eimer",becken:"Zum Waschbecken"},
+    quit:["Ich war bei der Unterweisung dabei.","Ich habe alles verstanden.","Ich konnte Fragen stellen."]},
+  pl:{title:"Metoda czterech kolorów",
+    std:["Metoda czterech kolorów zapobiega przenoszeniu zarazków. Każdy obszar ma własny kolor ściereczki.",
+         "Czerwony to sanitariaty o wysokim skażeniu: muszle klozetowe i pisuary.",
+         "Żółty to pozostałe sanitariaty: umywalki, armatura, lustra.",
+         "Zielony to kuchnie i aneksy kuchenne. Niebieski to biurka i meble.",
+         "Ściereczka nigdy nie zmienia obszaru. Zużyte ściereczki trafiają do worka."],
+    ez:["Każdy kolor ma swoje miejsce.","Czerwony to WC.","Żółty to umywalka.",
+        "Zielony to kuchnia. Niebieski to biurko.",
+        "Ściereczka zostaje w swoim obszarze. Zużyte ściereczki wrzucamy do worka."],
+    q:[{std:"Jaki kolor do muszli klozetowej?",ez:"Jaki kolor do WC?"},
+       {std:"Ściereczka była w sanitariacie. Gdzie trafia?",ez:"Ściereczka była w WC. Gdzie trafia?"},
+       {std:"Jaki kolor do aneksu kuchennego?",ez:"Jaki kolor do kuchni?"}],
+    a:{rot:"Czerwony",gelb:"Żółty",gruen:"Zielony",blau:"Niebieski",sack:"Do worka",eimer:"Z powrotem do wiadra",becken:"Do umywalki"},
+    quit:["Byłam na instruktażu.","Wszystko zrozumiałam.","Mogłam zadawać pytania."]},
+  ro:{title:"Metoda celor patru culori",
+    std:["Metoda celor patru culori previne contaminarea încrucișată. Fiecare zonă are propria culoare de lavetă.",
+         "Roșu este pentru grupurile sanitare cu contaminare ridicată: vase de toaletă și pisoare.",
+         "Galben este pentru restul grupurilor sanitare: chiuvete, baterii, oglinzi.",
+         "Verde este pentru bucătării. Albastru este pentru birouri și mobilier.",
+         "O lavetă nu schimbă niciodată zona. Lavetele folosite merg în sac."],
+    ez:["Fiecare culoare are locul ei.","Roșu este pentru WC.","Galben este pentru chiuvetă.",
+        "Verde este pentru bucătărie. Albastru este pentru birou.",
+        "Laveta rămâne în zona ei. Lavetele folosite merg în sac."],
+    q:[{std:"Ce culoare pentru vasul de toaletă?",ez:"Ce culoare pentru WC?"},
+       {std:"Laveta a fost în zona sanitară. Unde merge?",ez:"Laveta a fost la WC. Unde merge?"},
+       {std:"Ce culoare pentru bucătărie?",ez:"Ce culoare pentru bucătărie?"}],
+    a:{rot:"Roșu",gelb:"Galben",gruen:"Verde",blau:"Albastru",sack:"În sac",eimer:"Înapoi în găleată",becken:"La chiuvetă"},
+    quit:["Am participat la instruire.","Am înțeles totul.","Am putut pune întrebări."]},
+  tr:{title:"Dört renk yöntemi",
+    std:["Dört renk yöntemi çapraz bulaşmayı önler. Her alanın kendi bez rengi vardır.",
+         "Kırmızı, yüksek mikrop yüküne sahip saniter alanlar içindir: klozet ve pisuvarlar.",
+         "Sarı, diğer saniter alanlar içindir: lavabolar, armatürler, aynalar.",
+         "Yeşil, mutfaklar içindir. Mavi, ofis ve mobilya yüzeyleri içindir.",
+         "Bir bez asla alan değiştirmez. Kullanılan bezler atık torbasına gider."],
+    ez:["Her rengin bir yeri vardır.","Kırmızı tuvalet içindir.","Sarı lavabo içindir.",
+        "Yeşil mutfak içindir. Mavi masa içindir.",
+        "Bez kendi alanında kalır. Kullanılan bezler torbaya gider."],
+    q:[{std:"Klozet için hangi renk?",ez:"Tuvalet için hangi renk?"},
+       {std:"Bez saniter alanda kullanıldı. Nereye gider?",ez:"Bez tuvalette kullanıldı. Nereye gider?"},
+       {std:"Çay ocağı için hangi renk?",ez:"Mutfak için hangi renk?"}],
+    a:{rot:"Kırmızı",gelb:"Sarı",gruen:"Yeşil",blau:"Mavi",sack:"Atık torbasına",eimer:"Kovaya geri",becken:"Lavaboya"},
+    quit:["Eğitime katıldım.","Her şeyi anladım.","Soru sorabildim."]}
+};
+
+const QOPTS = [
+  [{k:"rot",ic:"cloth",c:"#B4341F",ok:1},{k:"gelb",ic:"cloth",c:"#D9A227"},{k:"blau",ic:"cloth",c:"#2C5FA8"}],
+  [{k:"sack",ic:"sack",ok:1},{k:"eimer",ic:"bucket"},{k:"becken",ic:"sink"}],
+  [{k:"gruen",ic:"cloth",c:"#2E7D52",ok:1},{k:"rot",ic:"cloth",c:"#B4341F"},{k:"blau",ic:"cloth",c:"#2C5FA8"}]
+];
+
+/* ===== Objekte: 'grau = unbekannt' ist ein echter dritter Zustand (L2) ===== */
+const OBJEKTE = [
+  {id:"NOR",n:"Nordlicht Bürocampus",s:"12 Kräfte · Frühschicht",st:"rot",  note:"2 Kräfte ohne gültige Gefahrstoff-Unterweisung"},
+  {id:"KLI",n:"Klinikum Haus C",     s:"9 Kräfte · Zweischicht", st:"gelb", note:"3 Unterweisungen laufen in 21 Tagen ab"},
+  {id:"SCH",n:"Grundschule Ost",     s:"5 Kräfte · Nachmittag",  st:"gruen",note:"Alle Nachweise gültig"},
+  {id:"LOG",n:"Logistikzentrum Süd", s:"14 Kräfte · Nachtschicht",st:"grau",note:"Altbestand aus Memberspot noch nicht migriert"},
+  {id:"STA",n:"Stadtwerke Verwaltung",s:"7 Kräfte · Frühschicht", st:"gruen",note:"Alle Nachweise gültig"}
+];
+
+const TEAM = [
+  {n:"Anna Kowalska",   i:"AK",lang:"PL",st:"offen", r:"Gefahrstoff-Unterweisung fehlt seit 14.08."},
+  {n:"Elena Popescu",   i:"EP",lang:"RO",st:"offen", r:"Erstunterweisung fehlt — Eintritt 25.08."},
+  {n:"Mehmet Yılmaz",   i:"MY",lang:"TR",st:"ok",    r:"Vollständig · nächste Auffrischung 12.03.2027"},
+  {n:"Katarzyna Nowak", i:"KN",lang:"PL",st:"ok",    r:"Vollständig · nächste Auffrischung 04.11.2026"},
+  {n:"Ion Marinescu",   i:"IM",lang:"RO",st:"ok",    r:"Vollständig · nächste Auffrischung 22.01.2027"}
+];
+
+const KRITERIEN = [
+  {t:"Trennt Tuchfarben bereichsrein — kein Tuch wechselt den Bereich.",ko:false},
+  {t:"Trägt die vorgeschriebene PSA: Handschuhe und Schutzbrille beim Umgang mit dem Sanitärreiniger.",ko:true},
+  {t:"Dosiert nach Betriebsanweisung, ohne Augenmaß.",ko:false},
+  {t:"Mischt keine zwei Reinigungsmittel.",ko:true},
+  {t:"Sperrt den Nassbereich mit dem Warnaufsteller ab.",ko:true},
+  {t:"Legt benutzte Tücher in den Abwurfsack, nicht zurück in den Eimer.",ko:false}
+];
+
+const SKILLS = [
+  {k:0,lvl:3,ev:"both",bis:"12.03.2027"},
+  {k:1,lvl:3,ev:"both",bis:"27.08.2027"},
+  {k:2,lvl:2,ev:"knowledge",bis:"14.02.2027"},
+  {k:3,lvl:1,ev:"knowledge",bis:"—"},
+  {k:4,lvl:0,ev:"none",bis:"—"}
+];
+/* Skillnamen, Kompetenzstufen und erledigte Einheiten sind Inhalt und damit uebersetzbar --
+   nicht Teil der UI-Lokalisierung. Das sind im Datenmodell zwei getrennte Ebenen. */
+const SKILLN = {
+  de:["Sanitär-Grundreinigung","Vier-Farben-Methode","Gefahrstoffe & Dosierung","Bodenpflegemaschine","Anleiten neuer Kolleginnen"],
+  pl:["Sprzątanie sanitariatów","Metoda czterech kolorów","Substancje niebezpieczne i dozowanie","Maszyna do pielęgnacji podłóg","Wprowadzanie nowych koleżanek"],
+  ro:["Curățenia grupurilor sanitare","Metoda celor patru culori","Substanțe periculoase și dozare","Mașina de întreținere pardoseli","Instruirea noilor colege"],
+  tr:["Saniter temel temizlik","Dört renk yöntemi","Tehlikeli maddeler ve dozaj","Zemin bakım makinesi","Yeni çalışanlara rehberlik"]
+};
+const DONE = {
+  de:["Arbeitssicherheit im Kundenobjekt","Verhalten bei Alarm"],
+  pl:["Bezpieczeństwo pracy w obiekcie klienta","Zachowanie przy alarmie"],
+  ro:["Securitatea muncii la client","Comportament în caz de alarmă"],
+  tr:["Müşteri binasında iş güvenliği","Alarm durumunda davranış"]
+};
+const LVL = {
+  de:["Noch nicht begonnen","Weiß, wie es geht","Unter Aufsicht","Kann selbstständig","Kann anleiten"],
+  pl:["Jeszcze nie zaczęte","Wiem, jak to zrobić","Pod nadzorem","Potrafię samodzielnie","Potrafię uczyć innych"],
+  ro:["Încă neînceput","Știu cum se face","Sub supraveghere","Pot lucra singură","Pot instrui pe alții"],
+  tr:["Henüz başlanmadı","Nasıl yapıldığını biliyorum","Gözetim altında","Tek başıma yapabilirim","Başkasına öğretebilirim"]
+};
+
+const svg=(d,extra="")=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" ${extra}>${d}</svg>`;
+const IC={
+  back:svg('<path d="M15 18l-6-6 6-6"/>'),
+  play:svg('<path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/>'),
+  pause:svg('<rect x="7" y="5.5" width="3.4" height="13" rx="1" fill="currentColor" stroke="none"/><rect x="13.6" y="5.5" width="3.4" height="13" rx="1" fill="currentColor" stroke="none"/>'),
+  mic:svg('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/>'),
+  check:svg('<path d="M5 12.5l4.5 4.5L19 7"/>'),
+  home:svg('<path d="M3.5 10.5L12 3.5l8.5 7M5.5 9.5V20h13V9.5"/>'),
+  card:svg('<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 14.5h4"/>'),
+  chat:svg('<path d="M20.5 12c0 4.1-3.8 7.3-8.5 7.3-1 0-2-.15-2.9-.4L4 20.5l1.7-3.7C4.3 15.5 3.5 13.8 3.5 12 3.5 7.9 7.3 4.7 12 4.7s8.5 3.2 8.5 7.3z"/>'),
+  doc:svg('<path d="M6 2.8h8l4.5 4.5v13.9H6z"/><path d="M13.8 2.8v4.7h4.7M9 13h6M9 16.5h4"/>'),
+  layers:svg('<path d="M12 3.2l8.5 4.6L12 12.4 3.5 7.8z"/><path d="M3.5 12l8.5 4.6 8.5-4.6M3.5 16.2l8.5 4.6 8.5-4.6"/>'),
+  eye:svg('<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.9"/>'),
+  cam:svg('<path d="M3.5 8h3.2l1.4-2h7.8l1.4 2h3.2v11.5H3.5z"/><circle cx="12" cy="13.2" r="3.4"/>'),
+  spark:svg('<path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.6 16.4l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7z"/>'),
+  lock:svg('<rect x="4.5" y="10.2" width="15" height="10.3" rx="2.2"/><path d="M8 10.2V7.4a4 4 0 0 1 8 0v2.8"/>'),
+  clock:svg('<circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.1 2"/>')
+};
+/* Piktogramme für Antwortoptionen — Antworten ohne Lesen erkennbar */
+const PIK={
+  cloth:c=>`<svg viewBox="0 0 44 44" aria-hidden="true"><rect x="4" y="7" width="36" height="30" rx="5" fill="${c}"/><path d="M4 22h36" stroke="rgba(255,255,255,.55)" stroke-width="2"/><path d="M13 7v30M31 7v30" stroke="rgba(255,255,255,.3)" stroke-width="1.6"/></svg>`,
+  sack:()=>`<svg viewBox="0 0 44 44" aria-hidden="true"><path d="M14 13h16l4 24H10z" fill="#3E555E"/><path d="M14 13c0-3 3.5-5 8-5s8 2 8 5" fill="none" stroke="#3E555E" stroke-width="2.6"/><path d="M16 21h12" stroke="rgba(255,255,255,.5)" stroke-width="2"/></svg>`,
+  bucket:()=>`<svg viewBox="0 0 44 44" aria-hidden="true"><path d="M9 15h26l-3.5 22h-19z" fill="#2C5FA8"/><path d="M11 12c1-3 5.5-5 11-5s10 2 11 5" fill="none" stroke="#2C5FA8" stroke-width="2.4"/><path d="M12 23h20" stroke="rgba(255,255,255,.45)" stroke-width="2"/></svg>`,
+  sink:()=>`<svg viewBox="0 0 44 44" aria-hidden="true"><path d="M7 21h30v5c0 5-4 9-9 9h-12c-5 0-9-4-9-9z" fill="#6E848C"/><path d="M22 21v-7c0-2.5 2-4.5 4.5-4.5H31" fill="none" stroke="#6E848C" stroke-width="2.6"/><path d="M7 21h30" stroke="rgba(255,255,255,.5)" stroke-width="2"/></svg>`
+};
+
+const S={role:"ol",scr:"ol-objekte",lang:"de",ez:false,obj:OBJEKTE[0],qi:0,qAns:[],
+         quit:[false,false,false],pin:"",ratings:{},widerspruch:false,chat:[],speaking:false,joined:1};
+const t=()=>UI[S.lang], c=()=>C[S.lang], reg=()=>S.ez?"ez":"std";
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+/* ---- Sprachausgabe: nutzt die Browser-Stimme, keine externe Anfrage ---- */
+function speak(text){
+  if(!("speechSynthesis" in window)){S.speaking=false;render();return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=LANGS[S.lang].speech; u.rate=.92;
+  u.onend=()=>{S.speaking=false;render()};
+  u.onerror=()=>{S.speaking=false;render()};
+  S.speaking=true; speechSynthesis.speak(u); render();
+}
+function stopSpeak(){if("speechSynthesis" in window)speechSynthesis.cancel();S.speaking=false;render()}
+function go(scr){stopSpeak();S.scr=scr;render();const v=document.querySelector(".view");if(v)v.scrollTop=0}
+
+/* =================== Bildschirme =================== */
+const SCR={
+
+/* ---------- Objektleitung ---------- */
+"ol-objekte":{bar:{t:"Meine Objekte",s:"Dienstag, 27.08. · 6:02 Uhr"},tabs:"ol",view:()=>`
+  <div class="card sunk">
+    <div class="eb">Heute zu tun</div>
+    <div class="h">2 Kräfte brauchen eine Unterweisung, bevor sie anfangen.</div>
+    <div class="tiny">Beides im Objekt Nordlicht — deine erste Station.</div>
+  </div>
+  <div class="eb">5 Objekte</div>
+  ${OBJEKTE.map((o,i)=>`<button class="obj" data-obj="${i}">
+      <span class="dot d-${o.st}"></span>
+      <span class="ob"><span class="on">${esc(o.n)}</span><span class="os">${esc(o.note)}</span></span>
+      <span class="oc">${o.id}</span></button>`).join("")}
+  <div class="card sunk">
+    <div class="tiny"><b>Grau</b> heißt <b>unbekannt</b>, nicht rot: Für das Logistikzentrum ist der Altbestand
+    aus Memberspot noch nicht migriert. Eine Ampel, die am ersten Tag überall rot steht, glaubt nach einer
+    Woche niemand mehr.</div>
+  </div>`,
+  note:{h:"Die Objektleitung sieht zuerst ihre Objekte — nicht einen Kurskatalog",
+    chips:[["L1","gruen"],["L2","gruen"]],
+    b:["Im ursprünglichen Konzept hat die Rolle <b>Objektleitung</b> im gesamten MVP keine einzige Funktion. Hier ist sie die erste Nutzerin: Der Einstiegsbildschirm ist die Ampel über ihre Objekte, nicht „Mein Lernen“.",
+       "Der dritte Zustand <b>grau = unbekannt</b> ist kein Designdetail. Ohne migrierte Nachweishistorie wäre die Ampel am Tag 1 zu 100 % rot — und damit wertlos."],
+    fix:"Migration der laufenden Nachweise ist Vorbedingung der Ampel, nicht Nachlauf."}},
+
+"ol-objekt":{bar:{t:()=>S.obj.n,s:"Wer darf heute hier arbeiten?",back:"ol-objekte"},tabs:"ol",view:()=>`
+  <div class="card">
+    <div class="eb">Einsatz heute · Frühschicht</div>
+    ${TEAM.map(p=>`<div class="person">
+      <span class="av">${p.i}</span>
+      <span class="pb"><span class="pn">${esc(p.n)}</span><span class="pr">${esc(p.r)}</span></span>
+      <span class="pill ${p.st==="ok"?"p-gruen":"p-gelb"}">${p.st==="ok"?"vollständig":"offen"}</span>
+    </div>`).join("")}
+  </div>
+  <div class="card sunk">
+    <div class="tiny">Das System sagt <b>nicht</b> „darf nicht arbeiten“. Es nennt die fehlende Unterweisung
+    mit Datum. Die Entscheidung trifft die Objektleitung — nicht der Algorithmus.</div>
+  </div>
+  <button class="btn" data-go="ol-briefing">Unterweisung durchführen</button>
+  <button class="btn ghost" data-go="ol-nachweis">Nachweise für dieses Objekt</button>`,
+  note:{h:"Erinnern statt sperren",
+    chips:[["L3","gruen"],["EU AI Act","brand"]],
+    b:["„Darf diese Person heute hier arbeiten?“ ist die Frage, die kein LMS am Markt beantwortet — und zugleich die heikelste: Als automatische Einsatzsteuerung wäre sie ein Hochrisiko-Anwendungsfall nach Anhang III des EU AI Act.",
+       "Deshalb ist die Ausgabe bewusst eine <b>Tatsachenfeststellung mit Datum</b>, kein Urteil und keine Rangfolge. Kein Modell, kein Score, keine Kopplung an den Dienstplan."],
+    fix:"Der Mensch entscheidet, das System erinnert."}},
+
+"ol-briefing":{bar:{t:"Unterweisung",s:"Vier-Farben-Methode · mündlich",back:"ol-objekt"},tabs:"ol",view:()=>`
+  <div class="card" style="border-color:var(--brand)">
+    <div class="pill p-brand">Du sprichst — das System dokumentiert</div>
+    <div class="sub">Gefahrstoff- und Biostoffunterweisungen müssen <b>mündlich</b> und arbeitsplatzbezogen
+    erfolgen. Der Sprechzettel unterstützt dich; er ersetzt dich nicht.</div>
+  </div>
+  <div class="eb">Sprechzettel · Objekt Nordlicht</div>
+  <div class="script">
+    ${C.de.ez.map((l,i)=>`<div class="l"><span class="n">${i+1}</span><span>${esc(l)}</span></div>`).join("")}
+    <div class="l"><span class="n">!</span><span><b>Objektspezifisch:</b> Im 2. OG steht der Sanitärreiniger
+    im abschließbaren Schrank neben dem Aufzug. Schlüssel hat nur die Frühschicht.</span></div>
+  </div>
+  <div class="card">
+    <div class="eb">Teilnehmende</div>
+    <div class="h" style="font-size:.94rem">${S.joined} von 5 beigetreten</div>
+    <div class="qr"><div class="qrbox">${qrSvg()}</div>
+      <div class="tiny" style="text-align:center">Code am Putzwagen scannen —<br>kein Passwort, keine E-Mail-Adresse</div></div>
+    <button class="btn quiet" data-join="1">Beitritt simulieren</button>
+  </div>
+  <button class="btn" data-go="ol-praxis">Weiter zum Praxischeck</button>`,
+  note:{h:"Blended ist Pflicht, nicht Komfort",
+    chips:[["§14 GefStoffV","rot"],["§14 BioStoffV","rot"]],
+    b:["Der schwerste sachliche Fehler des Ursprungskonzepts: Es wollte die Unterweisung <b>ersetzen</b>. §14 Abs. 2 GefStoffV und BioStoffV verlangen eine mündliche, tätigkeitsbezogene Unterweisung vor Aufnahme der Tätigkeit. Reines E-Learning erfüllt das nicht.",
+       "Dieser Bildschirm dreht die Rollen um: Die Objektleitung spricht, die Plattform liefert den Sprechzettel in Einfacher Sprache, protokolliert Teilnahme und Sprache — und macht daraus den Nachweis."],
+    fix:"Der objektspezifische Baustein ist der eigentliche Kern. Eine Tabelle „locations“ allein reicht nicht."}},
+
+"ol-praxis":{bar:{t:"Praxischeck",s:"Anna Kowalska · Objekt Nordlicht",back:"ol-briefing"},tabs:"ol",view:()=>`
+  <div class="card sunk">
+    <div class="tiny">Sechs beobachtbare Verhaltensanker. <b>Drei sind K.-o.-Kriterien</b> — ein Verstoß
+    bedeutet nicht bestanden, unabhängig vom Rest.</div>
+  </div>
+  ${KRITERIEN.map((k,i)=>`<div class="crit">
+    <div class="ct">${k.ko?'<span class="pill p-rot">K.o.</span>':'<span class="pill p-grau">Anker</span>'}<span>${esc(k.t)}</span></div>
+    <div class="rate" data-crit="${i}">
+      <button class="y" data-r="y" aria-pressed="${S.ratings[i]==="y"}">Erfüllt</button>
+      <button class="m" data-r="m" aria-pressed="${S.ratings[i]==="m"}">Mit Hinweis</button>
+      <button class="n" data-r="n" aria-pressed="${S.ratings[i]==="n"}">Nicht erfüllt</button>
+    </div></div>`).join("")}
+  <button class="confirm" data-wid aria-pressed="${S.widerspruch}">
+    <span class="bx">${S.widerspruch?IC.check:""}</span>
+    <span><b style="font-family:var(--ui)">Anna hat die Bewertung gesehen</b><br>
+    <span class="tiny">Sie kann einen Widerspruchsvermerk hinterlassen. Pflichtschritt der Sitzung.</span></span>
+  </button>
+  <button class="btn" data-go="ol-nachweis" ${Object.keys(S.ratings).length<6||!S.widerspruch?"disabled":""}>
+    Beobachtung speichern</button>
+  <div class="tiny">Offline erfassbar. Die Beweiskette bindet den Server-Eingang, nicht die Gerätezeit.</div>`,
+  note:{h:"Die einzige Tür zu „kann selbstständig“",
+    chips:[["L7","gelb"],["Kernconstraint","brand"]],
+    b:["Der Anspruch des Konzepts lautet: nicht „welcher Kurs wurde abgeschlossen“, sondern „welche Tätigkeit kann jemand nachweisbar sicher ausführen“. Ein Multiple-Choice-Quiz löst das nicht ein.",
+       "Deshalb gilt hier eine Regel als <b>Datenbank-Constraint, nicht als Feature-Flag</b>: Ein Quiz setzt ein Skill maximal auf „weiß, wie es geht“. Die Stufe „kann selbstständig ausführen“ ist ausschließlich über einen Beobachtungsnachweis erreichbar.",
+       "Die Gegenzeichnung ist kein Formalismus. Eine Beurteilung, die über den Kopf der beurteilten Person hinweg entsteht, ist unfair — mit oder ohne Betriebsrat."],
+    fix:"Kippt dieser Constraint unter Auslieferungsdruck, ist das Ergebnis Memberspot mit besserem PDF."}},
+
+"ol-nachweis":{bar:{t:"Nachweise",s:"Objekt Nordlicht · August 2026",back:"ol-objekt"},tabs:"ol",view:()=>`
+  <div class="doc">
+    <div class="dh"><span class="h" style="font-size:.9rem">Unterweisungsnachweis</span><span class="pill p-gruen">gültig</span></div>
+    <div class="dr"><span>Person</span><span>Anna Kowalska</span></div>
+    <div class="dr"><span>Unterweisung</span><span>Vier-Farben-Methode</span></div>
+    <div class="dr"><span>Inhaltsversion</span><span>v4 · 2026-08-11</span></div>
+    <div class="dr"><span>Form</span><span>mündlich + Verständniskontrolle</span></div>
+    <div class="dr"><span>Unterweisende</span><span>M. Zitzelsberger</span></div>
+    <div class="dr"><span>Sprache</span><span>Polnisch, einfach</span></div>
+    <div class="dr"><span>Praxischeck</span><span>bestanden · 27.08.2026</span></div>
+    <div class="dr"><span>Kettenblock</span><span>#4187 · prev 3f9a…c2</span></div>
+    <div class="dr"><span>Server-Eingang</span><span>2026-08-27T06:41:19Z</span></div>
+  </div>
+  <div class="row">
+    <button class="btn ghost">PDF erzeugen</button>
+    <button class="btn ghost" data-go="aud-liste">Auditor-Link</button>
+  </div>
+  <div class="card sunk">
+    <div class="eb">Lernzeit August</div>
+    <div class="h" style="font-size:.94rem">47 Stunden · 12 Personen</div>
+    <div class="tiny">Als Lohnexport für die Buchhaltung. Lernzeit ist Arbeitszeit — hier als saubere
+    Abrechnung, nicht als Leistungsüberwachung.</div>
+    <button class="btn quiet">Export für Lohnbuchhaltung</button>
+  </div>
+  <div class="card sunk">
+    <div class="tiny"><b>Widerruf ist vorgesehen.</b> Stellt sich ein Inhalt als fehlerhaft heraus, wird der
+    Nachweis über einen eigenen Kettenblock zurückgerufen — ein hash-verkettetes PDF, das man nicht
+    zurückholen kann, wäre ein Haftungsrisiko.</div>
+  </div>`,
+  note:{h:"Der Nachweis, der die Papierliste im Kofferraum ersetzt",
+    chips:[["L6","gelb"],["L11","gelb"]],
+    b:["Das ist der Punkt, an dem die Objektleitung zuerst etwas <b>gewinnt</b> statt Mehrarbeit zu bekommen: Nachweis auf Knopfdruck, mit Inhaltsversion, Unterweisungsform und ausgewiesener Sprache — genau das fragt der Auditor.",
+       "Zwei Details, die das Ursprungskonzept offen ließ: Die Beweiskette bindet ausschließlich den <b>Server-Eingang</b> (eine Gerätezeit ist manipulierbar), und es gibt einen <b>Widerruf</b> als eigenen Kettenblock."],
+    fix:"Keine Canvas-Unterschrift. Sie beweist weder Identität noch Abwesenheit fremder Hilfe."}},
+
+"ol-autor":{bar:{t:"Learni",s:"Baustein erstellen · Objekt Nordlicht"},tabs:"ol",view:()=>`
+  <div class="card sunk">
+    <div class="eb">Foto + Sprachnotiz</div>
+    <div class="row">
+      <button class="btn quiet" style="flex-direction:column;gap:5px;padding:16px 8px">
+        <span style="width:22px;height:22px;display:block">${IC.cam}</span><span style="font-size:.76rem">Foto</span></button>
+      <button class="btn quiet" style="flex-direction:column;gap:5px;padding:16px 8px">
+        <span style="width:22px;height:22px;display:block">${IC.mic}</span><span style="font-size:.76rem">Einsprechen</span></button>
+    </div>
+    <div class="tiny">„Der Sanitärreiniger steht im 2. OG im abschließbaren Schrank neben dem Aufzug.“ · 0:14</div>
+  </div>
+  <div class="card">
+    <div class="pill p-brand">Entwurf · noch nicht freigegeben</div>
+    <div class="h" style="font-size:.94rem">Gefahrstoffe im Objekt Nordlicht</div>
+    <div class="sub">Learni hat aus deiner Sprachnotiz einen Baustein gebaut: Text in Einfacher Sprache,
+    Übersetzung nach PL, RO und TR, dazu drei Verständnisfragen mit Piktogrammen.</div>
+    <div class="src">${IC.doc}<span>Quelle je Aussage: Betriebsanweisung BA-014, Sicherheitsdatenblatt Sanitärreiniger S2</span></div>
+  </div>
+  <div class="guard"><b>Zwei-Augen-Freigabe erforderlich.</b> Gefahrstoff- und PSA-Inhalte gibt die Fachkraft
+  für Arbeitssicherheit frei, nicht die Objektleitung allein. Bis dahin bleibt der Baustein Entwurf.</div>
+  <div class="row"><button class="btn ghost">Bearbeiten</button><button class="btn" disabled>Zur Freigabe</button></div>`,
+  note:{h:"Learni verdient sein Geld beim Autor, nicht im Chat",
+    chips:[["L11","gelb"],["Content-Engpass","brand"]],
+    b:["Es gibt im Unternehmen keinen Content Author in Vollzeit und wird keinen geben. Genau hier liegt der größte KI-Hebel: Foto plus Sprachnotiz werden zu Text, Einfacher Sprache, Übersetzung und Prüffragen — in fünf Minuten, am Handy, im Objekt.",
+       "Und genau hier entsteht das Haftungsrisiko. Ein KI-erzeugter Sprechzettel mit falscher PSA-Angabe würde zum Rechtsnachweis. Deshalb: Entwürfe nur aus freigegebenen Quellen, Quellenangabe je Aussage, Zwei-Augen-Freigabe."],
+    fix:"generated_by_ai und approved_by hängen an jedem Block und sind im Audit sichtbar."}},
+
+/* ---------- Mitarbeiterin ---------- */
+"ma-qr":{bar:null,tabs:null,view:()=>`
+  <div style="display:flex;flex-direction:column;gap:16px;padding-top:14px">
+    <div style="text-align:center;display:flex;flex-direction:column;gap:6px">
+      <div class="h">${esc(t().willkommen)}</div>
+      <div class="sub">${esc(t().scanne)}</div>
+    </div>
+    <div class="qr"><div class="qrbox">${qrSvg()}</div></div>
+    <button class="btn" data-go="ma-pin">${esc(t().weiter)}</button>
+    <div class="card sunk"><div class="tiny">Kein Passwort, keine E-Mail-Adresse. Die Identität hat die
+    Objektleitung beim Eintritt persönlich festgestellt und protokolliert — das ist der Anker,
+    nicht eine Mobilfunknummer.</div></div>
+  </div>`,
+  note:{h:"Anmelden im Tiefgeschoss, ohne Netz und ohne Passwort",
+    chips:[["L4","gelb"]],
+    b:["Ein SMS-Einmalcode funktioniert genau dort nicht, wo gereinigt wird — und eine Mobilfunknummer beweist Gerätebesitz, nicht Identität. Bei Prepaid-Karten, geteilten Familiengeräten und rund 200 Nummernwechseln pro Jahr trägt sie keinen Rechtsnachweis.",
+       "Deshalb: Die Identität wird <b>einmalig durch die Objektleitung</b> festgestellt, danach gilt ein langlebiger Gerätetoken mit persönlicher PIN. Wer kein eigenes Smartphone hat, quittiert am Tablet der Objektleitung."],
+    fix:"Enrollment im Beisein, protokolliert — das ist der Identitätsanker."}},
+
+"ma-pin":{bar:{t:()=>t().pinH,s:()=>t().pinS,back:"ma-qr"},tabs:null,view:()=>`
+  <div style="display:flex;flex-direction:column;gap:20px;padding-top:20px">
+    <div class="pin">${[0,1,2,3].map(i=>`<i class="${S.pin.length>i?"f":""}"></i>`).join("")}</div>
+    <div class="keys">
+      ${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-pin="${n}">${n}</button>`).join("")}
+      <button data-pin="del" style="font-size:.8rem">←</button>
+      <button data-pin="0">0</button>
+      <button data-pin="ok" style="background:var(--brand);color:#fff">${IC.check}</button>
+    </div>
+  </div>`,
+  note:{h:"Vier Ziffern statt E-Mail und Passwort",chips:[["L4","gelb"]],
+    b:["Die PIN ist persönlich und wird nie im Selfservice zurückgesetzt — ein Reset läuft über die Objektleitung, die die Identität ohnehin schon einmal festgestellt hat.",
+       "Ein geteiltes Gerät ist ein eigener Modus mit kurzer Sitzung, kein Sonderfall, den man übersieht."]}},
+
+"ma-heute":{bar:{t:()=>t().heute,s:()=>t().schicht},tabs:"ma",view:()=>`
+  <div class="card sunk">
+    <div class="eb">${esc(t().lernzeit)}</div>
+    <div class="h">12 min</div>
+    <div class="tiny">${esc(t().bezahlt)}</div>
+  </div>
+  <div class="card" style="border-color:var(--brand)">
+    <div class="pill p-brand">${esc(t().unterweisung)}</div>
+    <div class="h">${esc(c().title)}</div>
+    <div class="sub">${esc(t().dauer)}</div>
+    <button class="btn" data-go="ma-hoeren">${esc(t().anhoeren)}</button>
+  </div>
+  <div class="card">
+    <div class="eb">${esc(t().erledigt)}</div>
+    <div class="skill"><span class="dot d-gruen"></span><span class="sn">
+      <span class="snn">${esc(DONE[S.lang][0])}</span>
+      <span class="sl">${esc(t().gueltig)} 04.11.2026</span></span></div>
+    <div class="skill"><span class="dot d-gruen"></span><span class="sn">
+      <span class="snn">${esc(DONE[S.lang][1])}</span>
+      <span class="sl">${esc(t().gueltig)} 19.06.2027</span></span></div>
+  </div>
+  <div class="card sunk">
+    <div class="tiny">${esc(t().keinRanking)}</div>
+  </div>`,
+  note:{h:"Kein Streak, kein Punktestand, keine Rangliste",
+    chips:[["Motivation","brand"]],
+    b:["Das Ursprungskonzept hatte das öffentliche Ranking richtigerweise gestrichen — und dann eine <b>Lernserie</b> eingebaut. Eine Serie bestraft freie Tage, Krankheit und Teilzeit; sie bestraft also genau die Struktur dieses Jobs.",
+       "Was bei dieser Zielgruppe tatsächlich wirkt: <b>bezahlte Lernzeit, sichtbar quittiert</b>, Statusgewinn im Team, physische Artefakte und Anerkennung durch die direkte Führungskraft."],
+    fix:"Die 12 Minuten oben sind das stärkste Motiv auf diesem Bildschirm."}},
+
+"ma-hoeren":{bar:{t:()=>c().title,s:()=>LANGS[S.lang].name+(S.ez?" · "+t().einfach:""),back:"ma-heute"},tabs:null,view:()=>{
+  const lines=c()[reg()];
+  return `
+  <div class="audio">
+    <button data-speak>${S.speaking?IC.pause:IC.play}</button>
+    <div class="ab"><div class="at">${esc(S.speaking?t().vorlesen:t().anhoeren)}</div>
+      <div class="wave ${S.speaking?"on":""}">${"<i></i>".repeat(7)}</div></div>
+    <span class="lang">${LANGS[S.lang].tag}${S.ez?" · EZ":""}</span>
+  </div>
+  <div class="script">${lines.map((l,i)=>`<div class="l"><span class="n">${i+1}</span><span>${esc(l)}</span></div>`).join("")}</div>
+  <div class="card sunk"><div class="tiny">${esc(t().nachgesprochen)}</div></div>
+  <button class="btn" data-go="ma-frage">${esc(t().weiter)}</button>`},
+  note:{h:"Audio-First ist Pflicht, nicht Komfortfunktion",
+    chips:[["Register ≠ Sprache","brand"],["§12 ArbSchG","rot"]],
+    b:["Funktionaler Analphabetismus liegt im Reinigungsgewerbe deutlich über dem Durchschnitt — häufig auch in der Erstsprache. Übersetzung allein löst das nicht: Wer nicht flüssig liest, für den ist jede Schriftoberfläche eine Hürde.",
+       "Probieren Sie rechts die Umschalter. <b>Einfache Sprache ist eine eigene Dimension neben der Sprache</b>, keine vierte Übersetzung — sonst gäbe es kein „Türkisch, einfach“. Die Vorlesefunktion nutzt die Stimme des Geräts und funktioniert offline."],
+    fix:"§12 ArbSchG verlangt eine Unterweisung in verständlicher Sprache. Das ist hier Rechtsvoraussetzung, nicht Komfort."}},
+
+"ma-frage":{bar:{t:()=>t().frage+" "+(S.qi+1)+" "+t().von+" 3",s:()=>LANGS[S.lang].name,back:"ma-hoeren"},tabs:null,view:()=>{
+  const q=c().q[S.qi], opts=QOPTS[S.qi], given=S.qAns[S.qi];
+  return `
+  <div class="audio" style="padding:9px 12px">
+    <button data-speakq>${IC.play}</button>
+    <div class="ab"><div class="at" style="font-size:.78rem">${esc(t().vorlesen)}</div></div>
+  </div>
+  <div class="h">${esc(q[reg()])}</div>
+  <div class="picks">
+    ${opts.map((o,i)=>{
+      const cls=given==null?"":(o.ok?"ok":(given===i?"no":""));
+      return `<button class="pick ${cls}" data-ans="${i}" ${given!=null?"disabled":""}>
+        <span class="pi">${o.ic==="cloth"?PIK.cloth(o.c):PIK[o.ic]()}</span>
+        <span class="pl">${esc(c().a[o.k])}</span>
+        ${cls==="ok"?'<span class="mk">✓</span>':cls==="no"?'<span class="mk">✕</span>':""}</button>`}).join("")}
+  </div>
+  ${given!=null?`<div class="card ${opts[given].ok?"sunk":""}">
+     <div class="h" style="font-size:.94rem">${esc(opts[given].ok?t().richtig:t().leider)}</div>
+     <div class="tiny">${esc(opts[given].ok?t().fbOk:t().fbNo)}</div>
+     </div>
+     <button class="btn" data-next>${S.qi<2?esc(t().weiter):esc(t().quittung)}</button>
+     ${!opts[given].ok?`<button class="btn ghost" data-retry>${esc(t().nochmal)}</button>`:""}`:""}`},
+  note:{h:"Antworten, die man ohne Lesen erkennt",
+    chips:[["Piktogramme","brand"],["Fairness","brand"]],
+    b:["Die Frage wird vorgelesen, die Antworten sind <b>Piktogramme</b> — ein rotes Tuch, ein gelbes Tuch, ein Abwurfsack. Kein Freitext ist Bestehensvoraussetzung.",
+       "Unbegrenzte Versuche, kein Zeitlimit, und die Objektleitung sieht nur <b>bestanden oder nicht bestanden</b> mit Datum — nie die einzelnen Antworten. Sonst prüft das System Deutschkenntnisse statt Hygienewissen, und die Einzelantworten wären Leistungsdaten."],
+    fix:"Ein Quiz belegt Wissen. Handlungskompetenz belegt nur der Praxischeck."}},
+
+"ma-quittung":{bar:{t:()=>t().quittung,s:()=>LANGS[S.lang].name,back:"ma-frage"},tabs:null,view:()=>`
+  <div class="h">${esc(t().quittungH)}</div>
+  ${c().quit.map((q,i)=>`<button class="confirm" data-quit="${i}" aria-pressed="${S.quit[i]}">
+    <span class="bx">${S.quit[i]?IC.check:""}</span><span>${esc(q)}</span></button>`).join("")}
+  <div class="card sunk"><div class="tiny">${esc(t().keinStift)}</div></div>
+  <button class="btn" data-go="ma-fertig" ${S.quit.every(Boolean)?"":"disabled"}>${esc(t().bestaetigen)}</button>`,
+  note:{h:"Was die Quittierung wirklich bestätigt",
+    chips:[["Canvas gestrichen","rot"],["§14 GefStoffV","rot"]],
+    b:["Das Ursprungskonzept ließ bestätigen: „Ich habe den Wissenscheck ohne Hilfe Dritter durchgeführt.“ Das beweist dem Betrieb nichts — es verschiebt Haftung nach unten, auf Menschen, die einen deutschen Satz unterschreiben, den sie nicht ganz verstehen.",
+       "Hier wird das bestätigt, was rechtlich zählt und was die Person tatsächlich beurteilen kann: <b>Ich war dabei, ich habe verstanden, ich konnte fragen.</b> Das dokumentiert die mündliche Unterweisung — in ihrer Sprache."],
+    fix:"Personalisierter Account plus Zeitstempel schlagen jede Fingerunterschrift."}},
+
+"ma-fertig":{bar:null,tabs:"ma",view:()=>`
+  <div style="text-align:center;padding-top:22px;display:flex;flex-direction:column;gap:9px;align-items:center">
+    <div style="width:56px;height:56px;border-radius:50%;background:var(--gruen-w);color:var(--gruen);display:grid;place-items:center">
+      <span style="width:28px;height:28px;display:block">${IC.check}</span></div>
+    <div class="h">${esc(t().dankeH)}</div>
+    <div class="sub">${esc(t().dankeS)}</div>
+  </div>
+  <div class="doc">
+    <div class="dh"><span class="h" style="font-size:.86rem">${esc(t().nachweis)}</span><span class="pill p-gruen">${esc(t().gueltig)} 27.08.2027</span></div>
+    <div class="dr"><span>${esc(t().unterweisung)}</span><span>${esc(c().title)} · v4</span></div>
+    <div class="dr"><span>${esc(t().sprache)}</span><span>${LANGS[S.lang].name}${S.ez?" · "+t().einfach:""}</span></div>
+  </div>
+  <div class="card" style="border-color:var(--brand)">
+    <div class="pill p-brand">Stolzbrief</div>
+    <div class="h" style="font-size:.94rem">${esc(t().postH)}</div>
+    <div class="sub">${esc(t().postS)}</div>
+  </div>
+  <button class="btn ghost" data-go="ma-karte">${esc(t().karte)}</button>`,
+  note:{h:"Der Stolzbrief ist kein Nice-to-have",
+    chips:[["Halten","gruen"]],
+    b:["Er kostet fast nichts — die PDF- und Mailer-Bausteine liegen bereits in <span class='mono'>zb-shared</span>, Druck ist eine Dienstleistung. Und er ist das einzige Element, das dieses System auf der Gefühlsseite von einem Kontrollinstrument unterscheidet.",
+       "Bei rund 400 T€ jährlichen Fluktuationskosten ist ein gedrucktes Zeugnis, das jemand seiner Familie zeigt, die billigste Gegenmaßnahme im ganzen Projekt. Er wird als „später“ markiert werden. Das darf er nicht."],
+    fix:"Ein Badge im Browser existiert für diese Zielgruppe nicht. Papier existiert."}},
+
+"ma-karte":{bar:{t:()=>t().karte,s:"Anna Kowalska"},tabs:"ma",view:()=>`
+  <div class="card sunk">
+    <div class="eb">${esc(t().kannIch)}</div>
+    <div class="tiny">${esc(t().legende)}</div>
+  </div>
+  ${SKILLS.map(s=>`<div class="skill">
+    <span class="sn"><span class="snn">${esc(SKILLN[S.lang][s.k])}</span>
+      <span class="sl">${esc(LVL[S.lang][s.lvl])}${s.bis!=="—"?" · "+t().gueltig+" "+s.bis:""}</span>
+      <span class="steps">${[1,2,3,4].map(i=>`<i class="${i<=s.lvl?(s.ev==="both"&&i>=3?"obs":"on"):""}"></i>`).join("")}</span></span>
+    <span class="pill ${s.ev==="both"?"p-gruen":s.ev==="knowledge"?"p-brand":"p-grau"}">
+      ${s.ev==="both"?esc(t().beobachtet):s.ev==="knowledge"?esc(t().wissen):"·"}</span>
+  </div>`).join("")}
+  <div class="card sunk"><div class="tiny">${esc(t().karteNote)}</div></div>`,
+  note:{h:"Die Kann-Ich-Karte zeigt Stufen, keine Prozente",
+    chips:[["Kompetenzmodell","brand"],["evidence_type","brand"]],
+    b:["Der Prototyp des Ursprungskonzepts zeigte „Arbeitssicherheit 72 %“ und „Skill-Level 12“. Beides ist bedeutungsleer: Es fehlt die Niveaudimension mit Verhaltensankern — <b>angeleitet → unter Aufsicht → selbstständig → kann anleiten</b>.",
+       "Die Farbe der Stufenbalken macht die Beweisart sichtbar: Türkis steht für Wissen, Grün für Beobachtung. Erst beides zusammen schaltet die Tätigkeitsfreigabe frei."],
+    fix:"Skill-Daten dürfen keine Einsatz- oder Vergütungsentscheidung automatisch steuern."}},
+
+"ma-learni":{bar:{t:"Learni",s:()=>LANGS[S.lang].name},tabs:"ma",chat:true,view:()=>`
+  <div class="guard">${IC.lock}<b> ${esc(t().hinweis)}</b></div>
+  <div class="bub l">${esc(t().learniHi)}</div>
+  ${S.chat.map(m=>m.u
+    ?`<div class="bub u">${esc(m.u)}</div>`
+    :`<div class="bub l">${esc(m.l)}${m.src?`<div class="src">${IC.doc}<span>${esc(m.src)}</span></div>`:""}</div>`).join("")}
+  ${S.chat.length===0?`<div style="display:flex;flex-wrap:wrap;gap:6px">
+     <button class="btn quiet" style="width:auto;font-size:.78rem;padding:8px 12px" data-ask="foto">Was ist in dieser Flasche?</button>
+     <button class="btn quiet" style="width:auto;font-size:.78rem;padding:8px 12px" data-ask="haut">Mir brennt die Haut</button>
+   </div>`:""}`,
+  note:{h:"Ein Wächter, kein Gesprächspartner",
+    chips:[["Guardrail","gelb"],["Art. 9 DSGVO","rot"]],
+    b:["Sokratisches Tutoring bei Deutsch A2 um 5:30 Uhr mit dem Wischmopp in der anderen Hand erzeugt Scham und Abbruch. Der echte Nutzen ist banal und groß: <b>Foto der Flasche → was ist das, wo darf ich es benutzen, welche Schutzausrüstung.</b>",
+       "Probieren Sie „Mir brennt die Haut“. Bei Gefahrstoff-, Verletzungs- und Arbeitszeitfragen generiert Learni <b>nichts</b> — es kommt hinterlegter Text plus ein Anruf-Button zur Objektleitung.",
+       "Und der Chat ist für Vorgesetzte technisch unlesbar, nicht per Berechtigung: Freitext kann Gesundheitsdaten enthalten. Ohne Betriebsrat gibt diese Zusage niemand außer der Geschäftsführung — also muss sie im Datenmodell stehen, nicht in einer Richtlinie."],
+    fix:"Wenn jemand die Fragen mitlesen kann, fragt niemand mehr etwas."}},
+
+/* ---------- Auditor ---------- */
+"aud-liste":{bar:{t:"Nachweise",s:"Read-only · Link läuft am 26.09.2026 ab"},tabs:null,view:()=>`
+  <div class="card sunk">
+    <div class="eb">Freigegeben für</div>
+    <div class="h" style="font-size:.94rem">Kundenaudit Nordlicht Bürocampus</div>
+    <div class="tiny">Zeitraum 01.01.–27.08.2026 · nur Unterweisungsnachweise · keine Lernverläufe,
+    keine Einzelantworten, keine Chatinhalte.</div>
+  </div>
+  <div class="card">
+    ${TEAM.map(p=>`<div class="person">
+      <span class="av">${p.i}</span>
+      <span class="pb"><span class="pn">${esc(p.n)}</span>
+      <span class="pr">Vier-Farben-Methode v4 · mündlich + Verständniskontrolle</span></span>
+      <span class="lang">${p.lang}</span>
+      <span class="pill ${p.st==="ok"?"p-gruen":"p-gelb"}">${p.st==="ok"?"gültig":"offen"}</span>
+    </div>`).join("")}
+  </div>
+  <div class="card sunk">
+    <div class="eb">Prüfbar</div>
+    <div class="tiny">Jeder Nachweis trägt einen Verifikations-QR. Die Hash-Kette lässt sich unabhängig
+    nachrechnen — auch für widerrufene Nachweise, die als widerrufen sichtbar bleiben.</div>
+  </div>`,
+  note:{h:"Der Auditor bekommt einen Link, keine PDF-Mail",
+    chips:[["Datenminimierung","brand"]],
+    b:["Read-only, mit Ablaufdatum, auf einen Zeitraum und ein Objekt begrenzt — und ausschließlich auf Nachweise. Lernverläufe, Einzelantworten und Chatinhalte sind gar nicht Teil dieser Sicht.",
+       "Das ist gleichzeitig Datenschutz und Vertrieb: Genau diese Nachweisfähigkeit wird in Ausschreibungen abgefragt, und sie ist der Teil, den kein Standard-LMS liefert, weil keines Objekt, Rolle, Sprache und Beobachtung zugleich kennt."],
+    fix:"Ein append-only Log in derselben Datenbank, in der der Admin schreibt, ist ohne Hash-Kette nicht manipulationssicher."}}
+};
+
+function qrSvg(){
+  const cells=[[0,0,1,1,1,1,1,0,1,0,1,1,1,1,1],[0,0,1,0,0,0,1,0,0,1,1,0,0,0,1],
+  [0,0,1,0,1,0,1,0,1,1,1,0,1,0,1],[0,0,1,0,1,0,1,1,0,0,1,0,1,0,1],[0,0,1,0,0,0,1,0,1,1,1,0,0,0,1],
+  [0,0,1,1,1,1,1,0,1,0,1,1,1,1,1],[0,0,0,0,0,0,0,0,1,1,0,0,0,0,0],[1,0,1,1,0,1,1,1,0,1,1,0,1,1,0],
+  [0,1,1,0,1,0,0,1,1,0,0,1,0,1,1],[1,1,0,1,0,1,1,0,1,1,0,1,1,0,0],[0,0,0,0,0,0,0,0,1,0,1,1,0,1,1],
+  [0,0,1,1,1,1,1,0,1,1,0,0,1,0,1],[0,0,1,0,0,0,1,0,0,1,1,0,1,1,0],[0,0,1,0,1,0,1,0,1,0,1,1,0,1,1],
+  [0,0,1,1,1,1,1,0,1,1,0,1,1,0,1]];
+  let r="";
+  cells.forEach((row,y)=>row.forEach((v,x)=>{if(v)r+=`<rect x="${x*8}" y="${y*8}" width="8" height="8"/>`}));
+  return `<svg viewBox="0 0 120 120" width="100%" height="100%" fill="#10242C" aria-label="QR-Code am Putzwagen">${r}</svg>`;
+}
+
+const ROLES=[
+  {k:"ol", n:"Objektleitung", d:"14 Objekte · 60 Kräfte", first:"ol-objekte"},
+  {k:"ma", n:"Anna Kowalska", d:"Reinigungskraft · PL · 20 h", first:"ma-qr"},
+  {k:"aud",n:"Auditor",       d:"Read-only · Kundenaudit",  first:"aud-liste"}
+];
+const TABS={
+  ol:[["ol-objekte","layers","Objekte"],["ol-briefing","doc","Unterweisen"],["ol-nachweis","card","Nachweise"],["ol-autor","spark","Learni"]],
+  ma:[["ma-heute","home",()=>t().heute],["ma-karte","card",()=>t().karte],["ma-learni","chat","Learni"]]
+};
+const FLOW={
+  ol:[["ol-objekte","Objekte"],["ol-objekt","Wer darf heute"],["ol-briefing","Unterweisung"],["ol-praxis","Praxischeck"],["ol-nachweis","Nachweis"],["ol-autor","Baustein bauen"]],
+  ma:[["ma-qr","QR"],["ma-pin","PIN"],["ma-heute","Heute"],["ma-hoeren","Anhören"],["ma-frage","Fragen"],["ma-quittung","Quittierung"],["ma-fertig","Fertig"],["ma-karte","Kann-Ich-Karte"],["ma-learni","Learni"]],
+  aud:[["aud-liste","Nachweisliste"]]
+};
+const val=v=>typeof v==="function"?v():v;
+
+function render(){
+  const sc=SCR[S.scr], bar=sc.bar;
+  document.getElementById("roles").innerHTML=ROLES.map(r=>
+    `<button class="role" data-role="${r.k}" aria-pressed="${S.role===r.k}">
+       <span class="rn">${r.n}</span><span class="rd">${r.d}</span></button>`).join("");
+
+  document.getElementById("screen").innerHTML=`
+    <div class="statusbar"><span>6:0${S.joined} · Objekt Nordlicht</span><span>◧ 4G · 61 %</span></div>
+    ${bar?`<div class="appbar">
+        ${bar.back?`<button class="back" data-go="${bar.back}" aria-label="Zurück">${IC.back}</button>`:""}
+        <span class="t">${esc(val(bar.t))}<span class="s">${esc(val(bar.s))}</span></span></div>`:""}
+    <div class="view">${sc.view()}</div>
+    ${sc.chat?`<div class="chatin"><input placeholder="${esc(t().fragen)}" aria-label="Frage an Learni">
+        <button class="mic" aria-label="Sprechen">${IC.mic}</button></div>`:""}
+    ${sc.tabs?`<div class="tabbar">${TABS[sc.tabs].map(([s,i,l])=>
+        `<button data-go="${s}" aria-current="${S.scr===s}">${IC[i]}<span>${esc(val(l))}</span></button>`).join("")}</div>`:""}`;
+
+  const n=sc.note;
+  document.getElementById("rail").innerHTML=`
+    <div class="ctrl">
+      <div class="grp"><span class="gl">Sprache der Mitarbeiterin</span>
+        <div class="seg">${Object.entries(LANGS).map(([k,l])=>
+          `<button data-lang="${k}" aria-pressed="${S.lang===k}">${l.name}</button>`).join("")}</div></div>
+      <div class="grp"><span class="gl">Register</span>
+        <div class="seg">
+          <button data-ez="0" aria-pressed="${!S.ez}">Standard</button>
+          <button data-ez="1" aria-pressed="${S.ez}">Einfache Sprache</button></div></div>
+    </div>
+    <div class="grp" style="display:flex;flex-direction:column;gap:7px">
+      <span class="gl" style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)">Bildschirme dieser Rolle</span>
+      <div class="flow">${FLOW[S.role].map(([s,l])=>
+        `<button data-go="${s}" aria-current="${S.scr===s}">${esc(l)}</button>`).join("")}</div>
+    </div>
+    ${n?`<div class="note">
+      <div class="nh"><h3>${n.h}</h3>${(n.chips||[]).map(([c,k])=>
+        `<span class="pill p-${k}">${esc(c)}</span>`).join("")}</div>
+      <div class="nb">${n.b.map(p=>`<p>${p}</p>`).join("")}
+        ${n.fix?`<div class="fixline"><span class="fl">Merksatz</span><span>${n.fix}</span></div>`:""}</div>
+    </div>`:""}
+    <div class="scope">
+      <h3>Was dieser Prototyp ist — und was nicht</h3>
+      <ul>
+        <li>Klickbare Konzeptreferenz für den korrigierten Vertical Slice „grüne Objektmappe“. <b>Keine Produktionscodebasis.</b></li>
+        <li>Es werden keine personenbezogenen Daten verarbeitet oder gespeichert. Alle Namen, Objekte und Nachweise sind erfunden.</li>
+        <li>Die Vorlesefunktion nutzt die Sprachausgabe des Geräts. Ob eine Stimme für Polnisch, Rumänisch oder Türkisch vorhanden ist, entscheidet das Betriebssystem des Nutzers.</li>
+        <li>Nicht enthalten, weil bewusst gestrichen: VR/AR-Lab, Open Badges, xAPI, eIDAS-Signatur, Lernserien, Punktestände, Ranglisten.</li>
+      </ul>
+    </div>`;
+}
+
+/* =================== Interaktion =================== */
+document.addEventListener("click",e=>{
+  const el=t2=>e.target.closest(t2);
+  let x;
+  if(x=el("[data-role]")){const r=ROLES.find(r=>r.k===x.dataset.role);S.role=r.k;go(r.first);return}
+  if(x=el("[data-go]")){if(!x.disabled)go(x.dataset.go);return}
+  if(x=el("[data-obj]")){S.obj=OBJEKTE[+x.dataset.obj];go("ol-objekt");return}
+  if(x=el("[data-lang]")){S.lang=x.dataset.lang;stopSpeak();render();return}
+  if(x=el("[data-ez]")){S.ez=x.dataset.ez==="1";stopSpeak();render();return}
+  if(el("[data-join]")){S.joined=Math.min(5,S.joined+1);render();return}
+  if(el("[data-speak]")){S.speaking?stopSpeak():speak(c()[reg()].join(" "));return}
+  if(el("[data-speakq]")){speak(c().q[S.qi][reg()]+". "+QOPTS[S.qi].map(o=>c().a[o.k]).join(", "));return}
+  if(x=el("[data-ans]")){S.qAns[S.qi]=+x.dataset.ans;render();return}
+  if(el("[data-retry]")){S.qAns[S.qi]=null;render();return}
+  if(el("[data-next]")){if(S.qi<2){S.qi++;render()}else go("ma-quittung");return}
+  if(x=el("[data-quit]")){const i=+x.dataset.quit;S.quit[i]=!S.quit[i];render();return}
+  if(el("[data-wid]")){S.widerspruch=!S.widerspruch;render();return}
+  if(x=el("[data-r]")){S.ratings[+x.closest("[data-crit]").dataset.crit]=x.dataset.r;render();return}
+  if(x=el("[data-pin]")){
+    const k=x.dataset.pin;
+    if(k==="del")S.pin=S.pin.slice(0,-1);
+    else if(k==="ok"){if(S.pin.length===4){S.pin="";go("ma-heute")}return}
+    else if(S.pin.length<4)S.pin+=k;
+    if(S.pin.length===4){setTimeout(()=>{S.pin="";go("ma-heute")},260)}
+    render();return}
+  if(x=el("[data-ask]")){
+    if(x.dataset.ask==="foto"){
+      S.chat.push({u:"Was ist in dieser Flasche? 📷"});
+      S.chat.push({l:"Das ist der Sanitärreiniger S2. Er ist nur für WC und Urinale. Zieh Handschuhe und Schutzbrille an. Misch ihn mit nichts anderem.",
+                   src:"Betriebsanweisung BA-014 · Sicherheitsdatenblatt S2 · freigegeben 11.08.2026"});
+    }else{
+      S.chat.push({u:"Mir brennt die Haut"});
+      S.chat.push({l:"Spül die Stelle sofort 10 Minuten mit fließendem Wasser. Zieh verschmutzte Kleidung aus. Melde es noch heute. Ich beantworte solche Fragen nicht selbst — sprich bitte mit deiner Objektleitung.",
+                   src:"Hinterlegter Notfalltext · keine generierte Antwort"});
+    }
+    render();
+    setTimeout(()=>{const v=document.querySelector(".view");if(v)v.scrollTop=v.scrollHeight},20);
+    return}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")stopSpeak()});
+window.addEventListener("beforeunload",()=>{if("speechSynthesis" in window)speechSynthesis.cancel()});
+render();
+
+</script>
