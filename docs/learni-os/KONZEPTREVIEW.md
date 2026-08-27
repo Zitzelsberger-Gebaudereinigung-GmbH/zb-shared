@@ -382,6 +382,56 @@ Der Weg dahin:
 
 ---
 
+## 6. Antworten des Auftraggebers (27.08.2026) — und was sich dadurch ändert
+
+Die fünf Fragen aus Abschnitt 4 sind beantwortet, zuzüglich der Kapazitätsfrage zur Objektleitung.
+
+| # | Frage | Antwort | Wirkung |
+|---|---|---|---|
+| 1 | Memberspot | **Läuft, ungekündigt** | Kein Notfall. Parallelbetrieb ist gesichert, das Altsystem kann bis zur dokumentierten Abnahme laufen. Vollexport bleibt trotzdem Pflicht in Gate 0 — als Bestandssicherung, nicht als Rettung. |
+| 2 | Lernzeit | **Ja, bezahlte Arbeitszeit** | Die wichtigste Akzeptanzvoraussetzung ist erfüllt. `learning_time_entries` und der Lohnexport bleiben Pflichtbestandteil, jetzt aber als saubere Abrechnung statt als Konfliktthema. |
+| 3 | Personalstamm | **Lohnbuchhaltung mit Export** | Personalnummer, Name, Ein- und **Austrittsdatum** kommen aus dem Stamm. **Sprache und Objektzuordnung nicht** — die werden in `zb-lernen` gepflegt. |
+| 4 | Betriebsrat | **Kein Betriebsrat im Unternehmen** | §§87, 94, 95, 98 BetrVG entfallen. **Aber:** damit entfällt auch die Kollektivvereinbarung als Erlaubnisnorm — der stärkste Hebel, den das Plenum identifiziert hatte. Siehe 6.1. |
+| 5 | Budget | **150–250 T€ Jahr 1, Gate-1-Regel verbindlich** | Der empfohlene Rahmen. Die Verbindlichkeit der Abbruchregel rückt den Marktabgleich auf den kritischen Pfad, weil er die Bauentscheidung bestimmt. |
+| 6 | Objektleitung | **Zeit im Objektbudget hinterlegt, Pilotteilnahme freiwillig** | Bruchstelle L1 — die vom Kritiker als schwerste eingestufte — ist geschlossen, bevor sie eintritt. |
+
+### 6.1 Die neue Lücke: kein Betriebsrat heißt nicht weniger Recht, sondern anderes Recht
+
+Das Plenum hatte empfohlen, die Betriebsvereinbarung nach Art. 88 DSGVO i. V. m. §26 Abs. 4 BDSG **selbst zur Rechtsgrundlage** zu machen — für alles, was nicht Pflichtunterweisung ist: Learni-Chat, Skill-Wallet, Empfehlungen, freiwilliges Lernen. Dieser Weg ist ohne Betriebsrat versperrt. Was bleibt:
+
+- **Pflichtunterweisungen:** Art. 6 Abs. 1 lit. c DSGVO — echte rechtliche Verpflichtung inklusive Nachweisführung. Unverändert tragfähig, das ist der Kern des Systems.
+- **Alles Freiwillige:** Art. 6 Abs. 1 lit. f mit **dokumentierter Interessenabwägung je Verarbeitung** (Learni-Chat, Skill-Wallet, Empfehlungen getrennt bewerten), oder — wo die Abwägung nicht trägt — die Funktion einschränken statt sie zu begründen. Einwilligung bleibt im Beschäftigungsverhältnis untauglich (§26 Abs. 2 BDSG), und §26 Abs. 1 S. 1 BDSG ist seit EuGH C-34/21 unionsrechtlich angeschlagen. *(Anwaltliche Prüfung nötig.)*
+- **DSFA nach Art. 35 bleibt zwingend** — sie wird ohne Betriebsrat sogar wichtiger, weil sie das einzige verbleibende formale Prüfinstrument ist.
+- **EU AI Act unverändert:** Art. 4 (AI Literacy, rollenspezifisch mit Nachweis), Art. 50 (Kennzeichnung), Art. 5 Abs. 1 lit. f (keine Emotionserkennung). Die Hochrisiko-Frage hängt weiter allein daran, ob KI bewertet oder Skill-Daten die Einsatzplanung steuern — nicht am Betriebsrat.
+
+**Und der Punkt, der leicht übersehen wird:** Ohne Betriebsrat fehlt das Korrektiv, das die Belegschaft schützt — und damit auch der Vertrauensanker, den die Reinigungskraft im Plenum ausdrücklich verlangt hat („Chat technisch für Vorgesetzte unlesbar, 24-h-Löschung schriftlich"). Diese Zusagen hat jetzt niemand außer der Geschäftsführung zu geben. Empfehlung:
+
+1. **Nutzungsrichtlinie als freiwillige Selbstbindung**, inhaltlich in der Substanz der BV-Gliederung aus Abschnitt 3.3: abschließender Zweckkatalog, ausdrückliches Verbot der Leistungs- und Verhaltenskontrolle, Rollenmatrix, abschließende Reportliste mit Mindestaggregation n ≥ 5, Retention je Tabelle, Beschwerdeweg. In allen Belegschaftssprachen.
+2. **Technisch erzwingen statt versprechen:** Der Learni-Chat wird so gebaut, dass Vorgesetzte und Admins ihn gar nicht im Klartext lesen können — nicht per Berechtigung, sondern per Datenmodell. Eine Zusage, die man technisch brechen kann, ist bei dieser Belegschaft keine.
+3. **Eine benannte Vertrauensperson** außerhalb der Führungslinie als Ansprechpartner für Beschwerden zum System. Ersetzt kein Gremium, gibt der Zusage aber ein Gesicht.
+
+### 6.2 Bruchstellen-Status nach den Antworten
+
+| ID | Bruchstelle | Status |
+|---|---|---|
+| **L1** | Objektleitung als Erfüllungsgehilfin | **Geschlossen** — Zeit hinterlegt, Teilnahme freiwillig. Abbruchkriterium des Piloten bleibt trotzdem „Beobachtungen je Objektleitung je Woche". |
+| **L3** | `may_work_at` als Einsatzsteuerung | **Entschärft** — kein §95-Konflikt mehr. Die Auflage bleibt inhaltlich bestehen: deterministisch, Ausgabe „Unterweisung X fehlt seit TT.MM." statt „darf nicht", keine Kopplung an den Dienstplan. Ohne BR entscheidet die Datenschutz-Interessenabwägung, nicht mehr das Gremium. |
+| **L10** | BV kollidiert mit Woche 9 | **Entfällt** — keine Betriebsvereinbarung zu verhandeln. Der 90-Tage-Plan wird dadurch erstmals realistisch. An ihre Stelle tritt die Nutzungsrichtlinie aus 6.1, die die Geschäftsführung allein beschließen kann. |
+| **L7** | Praxischeck ohne Gegenzeichnung | **Bleibt offen** — §§82/83 BetrVG entfallen, das Fairnessproblem nicht. Quittierung plus Widerspruchsvermerk bleibt Pflichtschritt; sie kostet 20 Minuten Entwicklung. |
+| **L5** | Personalstamm als Quelle der Wahrheit | **Halb geschlossen.** Personalnummer, Name und Austrittssignal kommen aus der Lohnbuchhaltung — das Austrittssignal ist das wichtigste Feld überhaupt, weil ohne es kein Löschkonzept funktioniert. **Sprache und Objektzuordnung fehlen** und brauchen Pflege-UI, benannten Verantwortlichen und budgetierten Aufwand: rechnerisch ~500 Sprachzuordnungen einmalig plus laufende Objektzuordnung bei ~200 Wechseln pro Jahr. |
+| **L2, L4, L6, L8, L9, L11** | Ampel/Migration · Identitätsbindung · Offline-Zeitstempel · Player-Aufwand · Projektzeit · KI-Haftung | **Unverändert offen.** Keine der Antworten berührt sie. |
+
+### 6.3 Korrigierter Rahmen
+
+- **Aufwand: 6–8 Personenmonate Entwicklung** statt 7–9. Der Abzug kommt allein aus dem Wegfall der BV-Zuarbeit; L9 bleibt im Übrigen gültig — Personalstamm-Sync, Enrollment, Migration, Pflege-UI, Offline-Sync, Betrieb, Tests und Betriebsdoku sind weiterhin nicht in den Feature-Schätzungen enthalten. Neu hinzu kommt die Pflege-UI für Sprache und Objektzuordnung aus L5.
+- **Recht: 25–40 T€** statt 30–50 T€, mit verschobenem Schwerpunkt: weg von der Mitbestimmungsverhandlung, hin zu DSFA, Rechtsgrundlagenkonzept mit Interessenabwägungen und der Prüfung des Beweiswerts je Unterweisungstyp.
+- **Kritischer Pfad neu:** (1) Vollexport und Nullmessung · (2) DSFA und Rechtsgrundlagenkonzept · (3) Personalstamm-Export plus Pflegekonzept für Sprache und Objektzuordnung · (4) **Gate-1-Marktabgleich** — der rückt nach vorn, weil die Abbruchregel verbindlich gilt und damit über den Bauumfang entscheidet.
+- **Was jetzt sofort startbar ist, ohne auf eine Antwort zu warten:** Repository anlegen, Datenmodell, Personalstamm-Sync gegen den Lohnexport, Enrollment über die Objektleitung, Objekt-Ampel mit Zustand „grau = unbekannt". Bis DSFA und Rechtsgrundlagenkonzept stehen: **Testdaten**, keine echten Beschäftigtendaten. Das gilt ohne Betriebsrat genauso — es folgt aus Art. 35 DSGVO, nicht aus dem BetrVG.
+
+**Am Urteil ändert sich nichts: Go mit Auflagen.** Die Auflagenliste wird kürzer und konkreter — A2 (Erprobungsvereinbarung) entfällt und wird durch die Nutzungsrichtlinie plus DSFA ersetzt; A1, A3 und A4 bleiben unverändert bestehen.
+
+---
+
 ## Anhang: Hinweis zum Ablageort
 
 Dieses Review liegt im Repository `zb-shared`, weil dort der Auftrag gestartet wurde. **Das Produkt selbst gehört nicht hierher.** `zb-shared` ist eine versionierte Bibliothek, die mehrere Apps per Git-Tag pinnen; ein Produkt mit eigenem Datenmodell, Migrationen und Frontend würde die Release-Semantik zerstören und jede App mit LMS-Abhängigkeiten belasten. LEARNI OS bzw. `zb-lernen` bekommt ein eigenes Repository. Abhängigkeitsrichtung ausschließlich **LMS → `zb-shared`**, niemals umgekehrt.
