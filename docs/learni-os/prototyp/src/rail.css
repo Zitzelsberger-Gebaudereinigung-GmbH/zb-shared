@@ -1,0 +1,27 @@
+/* ---------- Erläuterungsspalte ---------- */
+.rail{display:flex;flex-direction:column;gap:20px;min-width:0}
+.rail h2{font-size:1.4rem;font-weight:600}
+.rail .lede{color:var(--ink-2);max-width:62ch}
+.note{background:var(--panel);border:1px solid var(--rule);border-radius:5px;box-shadow:var(--shadow);overflow:hidden}
+.note .nh{padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.note .nh h3{font-size:1.02rem;font-weight:600;flex:1;min-width:180px}
+.note .nb{padding:15px 18px;display:flex;flex-direction:column;gap:12px;font-size:.94rem;color:var(--ink-2)}
+.note .nb b{color:var(--ink);font-weight:600}
+.fixline{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:baseline;background:var(--sunk);border-radius:4px;padding:10px 13px;font-size:.88rem}
+.fixline .fl{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--gruen)}
+.ctrl{display:flex;flex-wrap:wrap;gap:16px;background:var(--panel);border:1px solid var(--rule);border-radius:5px;padding:14px 18px}
+.ctrl .grp{display:flex;flex-direction:column;gap:7px}
+.ctrl .gl{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{padding:6px 11px;border-radius:4px;background:var(--sunk);font-family:var(--ui);font-size:.8rem;font-weight:600;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.flow{display:flex;flex-wrap:wrap;gap:5px}
+.flow button{padding:6px 10px;border-radius:4px;background:var(--panel);border:1px solid var(--rule);font-family:var(--mono);font-size:.7rem;color:var(--ink-3)}
+.flow button[aria-current="true"]{border-color:var(--brand);color:var(--brand-deep);background:var(--wash)}
+.flow button:hover{border-color:var(--brand)}
+.scope{border-top:1px solid var(--rule);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.scope h3{font-size:.98rem;font-weight:600}
+.scope ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:6px}
+.scope li{font-size:.88rem;color:var(--ink-2)}
+.scope li::marker{color:var(--brand)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

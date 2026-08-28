@@ -1,0 +1,46 @@
+/* ---------- Markenleiste ---------- */
+.brandbar{background:var(--bar);border-bottom:3px solid var(--brand)}
+.brandbar-in{max-width:1300px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brandbar img{height:25px;width:auto;display:block}
+.brandbar .kind{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+
+/* ---------- Kopf ---------- */
+.top{max-width:1300px;margin:0 auto;padding:34px 22px 0}
+.top .eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--brand-deep)}
+.top h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-.025em;margin:10px 0 12px}
+.top p{max-width:66ch;color:var(--ink-2)}
+.warnstrip{display:flex;gap:10px;align-items:flex-start;background:var(--gelb-w);border-left:3px solid var(--gelb);border-radius:0 3px 3px 0;padding:12px 16px;margin-top:20px;max-width:74ch;font-size:.9rem;color:var(--ink-2)}
+.warnstrip b{color:var(--ink)}
+
+/* ---------- Rollenwahl ---------- */
+.roles{max-width:1300px;margin:26px auto 0;padding:0 22px;display:flex;gap:10px;flex-wrap:wrap}
+.role{display:flex;flex-direction:column;gap:3px;align-items:flex-start;padding:11px 16px;border:1px solid var(--rule);border-radius:4px;background:var(--panel);transition:border-color .12s,background .12s}
+.role:hover{border-color:var(--brand)}
+.role[aria-pressed="true"]{background:var(--brand);border-color:var(--brand)}
+.role .rn{font-family:var(--ui);font-weight:600;font-size:.95rem}
+.role .rd{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-3)}
+.role[aria-pressed="true"] .rn,.role[aria-pressed="true"] .rd{color:#fff}
+.role[aria-pressed="true"] .rd{opacity:.75}
+
+/* ---------- Bühne ---------- */
+.stage{max-width:1300px;margin:0 auto;padding:30px 22px 90px;display:grid;grid-template-columns:minmax(0,364px) minmax(0,1fr);gap:38px;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr;gap:26px}}
+
+/* ---------- Telefon ---------- */
+.phone{position:sticky;top:22px;justify-self:center;width:100%;max-width:364px}
+@media (max-width:900px){.phone{position:static}}
+.device{background:var(--bar);border-radius:34px;padding:11px;box-shadow:0 2px 4px rgba(16,36,44,.1),0 24px 60px rgba(16,36,44,.22)}
+.screen{background:var(--panel);border-radius:25px;overflow:hidden;height:660px;display:flex;flex-direction:column;position:relative}
+.statusbar{background:var(--bar);color:rgba(255,255,255,.82);font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;padding:7px 16px 9px;display:flex;justify-content:space-between}
+.appbar{background:var(--brand);color:#fff;padding:11px 15px;display:flex;align-items:center;gap:11px;min-height:50px}
+.appbar .back{width:26px;height:26px;display:grid;place-items:center;border-radius:50%;flex:none}
+.appbar .back:hover{background:rgba(255,255,255,.16)}
+.appbar .t{font-family:var(--ui);font-weight:600;font-size:.95rem;line-height:1.2;flex:1;min-width:0}
+.appbar .s{font-family:var(--mono);font-size:.6rem;opacity:.8;display:block;font-weight:400;letter-spacing:.06em;margin-top:1px}
+.view{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:16px 15px 22px;display:flex;flex-direction:column;gap:14px;font-family:var(--ui);font-size:.9rem}
+.view::-webkit-scrollbar{width:5px}
+.view::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+.tabbar{display:flex;border-top:1px solid var(--rule);background:var(--panel)}
+.tabbar button{flex:1;padding:9px 3px 11px;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--ui);font-size:.62rem;font-weight:600;color:var(--ink-3)}
+.tabbar button[aria-current="true"]{color:var(--brand-deep)}
+.tabbar svg{width:19px;height:19px}

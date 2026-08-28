@@ -1,0 +1,150 @@
+{
+  "paket": "LEARNI OS Codex-Analysepaket",
+  "stand": "2026-08-27",
+  "hinweis": "Maschinenlesbare Fassung von OFFENE_BRUCHSTELLEN.md. Schweregrad ist eine Einschaetzung, kein Messwert.",
+  "bruchstellen": [
+    {
+      "id": "L2",
+      "titel": "Ampel am Tag 1 zu 100 % rot",
+      "status": "offen",
+      "schwere": "hoch",
+      "eintritt": "Woche 3-4",
+      "domaene": [
+        "migration",
+        "ux"
+      ],
+      "gegenmassnahme": "Nachweismigration als Vorbedingung der Ampel; dritter Zustand grau = unbekannt mit Einfuehrungsfrist je Objekt",
+      "ungeprueft": [
+        "Exportierbarkeit der Memberspot-Nachweisdaten",
+        "Rechtliche Fortgeltung importierter Altnachweise",
+        "Frist je Objekt oder je Unterweisungstyp"
+      ]
+    },
+    {
+      "id": "L4",
+      "titel": "Anmeldung ohne Netz und ohne belastbare Identitaetsbindung",
+      "status": "offen",
+      "schwere": "hoch",
+      "eintritt": "erstes Enrollment",
+      "domaene": [
+        "auth",
+        "recht",
+        "offline"
+      ],
+      "gegenmassnahme": "Identitaet einmalig durch die Objektleitung feststellen und protokollieren; Geraetetoken plus persoenliche PIN; kein Selfservice-Reset; Kiosk-Tablet als Pflicht-Fallback",
+      "ungeprueft": [
+        "Geraeteverlust und Werksreset",
+        "Kiosk-Tablet als Identitaetsloch",
+        "Beweiswert bei durch die Objektleitung ruecksetzbarer PIN"
+      ]
+    },
+    {
+      "id": "L6",
+      "titel": "Offline-Erfassung versus qualifizierter Zeitstempel",
+      "status": "offen",
+      "schwere": "hoch",
+      "eintritt": "erster Streitfall",
+      "domaene": [
+        "beweiskette",
+        "offline"
+      ],
+      "gegenmassnahme": "Kette und Zeitstempel binden ausschliesslich den Server-Eingang; Geraetezeit gekennzeichnet; Drift mitgeloggt; maximale Offline-Latenz 72 h; Selbst-Quiz nie offline",
+      "ungeprueft": [
+        "Trennlinie bei Quittierungen im Funkloch",
+        "Sync-Konfliktaufloesung ohne Kettenschaden",
+        "Angemessenheit der 72-Stunden-Grenze"
+      ]
+    },
+    {
+      "id": "L7",
+      "titel": "Praxischeck ist Beurteilung ohne unabhaengige Instanz",
+      "status": "offen",
+      "schwere": "mittel",
+      "eintritt": "erster Widerspruch",
+      "domaene": [
+        "fairness",
+        "prozess"
+      ],
+      "gegenmassnahme": "Quittierung zur Kenntnis plus Freitext-Widerspruchsvermerk als Pflichtschritt der Sitzung",
+      "ungeprueft": [
+        "Wirksamkeit ohne Adressat fuer den Vermerk",
+        "Objektleitung als beurteilende und einzige Eskalationsinstanz"
+      ]
+    },
+    {
+      "id": "L8",
+      "titel": "Umkehrbarkeit der Kaufentscheidung moeglicherweise Illusion",
+      "status": "offen",
+      "schwere": "hoch",
+      "eintritt": "Gate 1 ohne passendes Kauf-LMS",
+      "domaene": [
+        "architektur",
+        "aufwand"
+      ],
+      "gegenmassnahme": "Content-Adapter mit vier Operationen ab Tag 1: Kurse listen, Version aufloesen, Completion-Ereignis, Deep-Link",
+      "ungeprueft": [
+        "Reichen vier Operationen",
+        "Haelt die Kante bei Versionierung und Register",
+        "Kennt ein Kauf-LMS diese Konzepte ueberhaupt"
+      ]
+    },
+    {
+      "id": "L9",
+      "titel": "Aufwandsschaetzung ist Feature-Zeit",
+      "status": "offen",
+      "schwere": "hoch",
+      "eintritt": "ab Woche 6, schleichend",
+      "domaene": [
+        "aufwand"
+      ],
+      "gegenmassnahme": "Scope halbieren oder Zeitachse verdoppeln und offen benennen; aktuell 6-8 PM statt 4",
+      "ungeprueft": [
+        "Sind 6-8 PM weiterhin zu optimistisch",
+        "Welche Position fehlt noch"
+      ]
+    },
+    {
+      "id": "L11",
+      "titel": "KI-Autoren-Copilot haftungsseitig ungesichert",
+      "status": "offen",
+      "schwere": "hoch",
+      "eintritt": "erster Gefahrstoff-Baustein",
+      "domaene": [
+        "ki",
+        "haftung",
+        "recht"
+      ],
+      "gegenmassnahme": "Entwuerfe nur aus freigegebenen Quellen mit Quellenangabe je Aussage; Zwei-Augen-Freigabe durch die Fachkraft fuer Arbeitssicherheit; Herkunfts- und Freigabemerkmal je Block; Widerruf als eigener Kettenblock",
+      "ungeprueft": [
+        "Ist Quellenangabe je Aussage verlaesslich herstellbar oder nur plausibel",
+        "Widerrufsablauf nach Auslieferung an einen Kunden"
+      ]
+    }
+  ],
+  "geschlossen": [
+    {
+      "id": "L1",
+      "titel": "Objektleitung als Erfuellungsgehilfin",
+      "status": "geschlossen",
+      "grund": "Zeit im Objektbudget hinterlegt, Pilotteilnahme freiwillig"
+    },
+    {
+      "id": "L3",
+      "titel": "Darf hier arbeiten als Einsatzsteuerung",
+      "status": "entschaerft",
+      "grund": "kein Betriebsrat, damit kein §95-Konflikt; inhaltliche Auflage bleibt"
+    },
+    {
+      "id": "L5",
+      "titel": "Personalstamm als Quelle der Wahrheit",
+      "status": "halb offen",
+      "grund": "Austrittssignal kommt aus der Lohnbuchhaltung; Sprache und Objektzuordnung nicht"
+    },
+    {
+      "id": "L10",
+      "titel": "Betriebsvereinbarung kollidiert mit Zeitplan",
+      "status": "entfallen",
+      "grund": "kein Betriebsrat; ersetzt durch Nutzungsrichtlinie und Datenschutz-Folgenabschaetzung"
+    }
+  ]
+}

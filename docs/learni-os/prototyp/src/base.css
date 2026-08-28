@@ -1,0 +1,37 @@
+:root{
+  --brand:#00A7B7; --brand-deep:#007986; --brand-ink:#0B2F35;
+  --ground:#F4F7F8; --panel:#FFFFFF; --sunk:#EBF1F2; --bar:#10242C;
+  --ink:#10242C; --ink-2:#3E555E; --ink-3:#6E848C;
+  --rule:#D8E3E6; --rule-soft:#E7EEF0;
+  --wash:#E1F4F7;
+  --rot:#B4341F; --rot-w:#FAEAE7; --gelb:#9A6206; --gelb-w:#FBF1DF;
+  --gruen:#26694A; --gruen-w:#E5F1EA; --grau:#6E848C; --grau-w:#EBF1F2;
+  --shadow:0 1px 2px rgba(16,36,44,.05),0 10px 30px rgba(16,36,44,.07);
+  --display:"Archivo",-apple-system,"Segoe UI",sans-serif;
+  --body:"Source Serif 4",Georgia,serif;
+  --ui:"Archivo",-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0B181E; --panel:#132831; --sunk:#0E212A; --bar:#061217;
+  --ink:#E9F2F4; --ink-2:#B0C5CC; --ink-3:#7F979F;
+  --rule:#23414C; --rule-soft:#1B353F; --wash:#0E3239; --brand-deep:#4CC9D6;
+  --rot:#F08A75; --rot-w:#3A211C; --gelb:#E0AC5A; --gelb-w:#33280F;
+  --gruen:#68C296; --gruen-w:#123124; --grau:#8AA1A9; --grau-w:#17303A;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --ground:#0B181E; --panel:#132831; --sunk:#0E212A; --bar:#061217;
+  --ink:#E9F2F4; --ink-2:#B0C5CC; --ink-3:#7F979F;
+  --rule:#23414C; --rule-soft:#1B353F; --wash:#0E3239; --brand-deep:#4CC9D6;
+  --rot:#F08A75; --rot-w:#3A211C; --gelb:#E0AC5A; --gelb-w:#33280F;
+  --gruen:#68C296; --gruen-w:#123124; --grau:#8AA1A9; --grau-w:#17303A;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.2;text-wrap:balance;letter-spacing:-.012em}
+p{margin:0}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:3px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
