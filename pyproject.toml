@@ -1,7 +1,7 @@
 [project]
 name = "zb-shared"
-version = "0.2.3"
-description = "Geteilte Bibliotheken fuer Zitzelsberger-Apps (kanonischer KI-Client + Audit-Libs: mailer, pdf). Konsolidierung P2.2/P2.3, [d-303]."
+version = "0.3.0"
+description = "Geteilte Bibliotheken fuer Zitzelsberger-Apps (kanonischer KI-Client + Audit-Libs: mailer, pdf + KI-Replikate). Konsolidierung P2.2/P2.3, [d-303]."
 requires-python = ">=3.10"
 dependencies = [
     "httpx>=0.27",
@@ -11,6 +11,7 @@ dependencies = [
 
 [project.optional-dependencies]
 pdf = ["xhtml2pdf>=0.2.16"]
+dev = ["pytest>=8"]
 
 [build-system]
 requires = ["setuptools>=61"]
