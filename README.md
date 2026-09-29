@@ -98,4 +98,4 @@ pip install -e ".[dev]" && pytest -q     # netzwerkfrei (Fake-KI-Client)
 ```
 
 ## Stand
-v0.3.0 — `ki_client`, `mailer`, `pdf`, `replikat` fertig. Weitere Audit-Libs folgen Reihe-für-Reihe.
+v0.3.0 — `ki_client`, `mailer`, `pdf`, `vertex_transkript`, `replikat` fertig. Weitere Audit-Libs folgen Reihe-für-Reihe.
