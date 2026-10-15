@@ -1,9 +1,9 @@
 """zb_shared — geteilte Bibliotheken fuer Zitzelsberger-Apps.
 
 Single-Source statt kopierter Module (Konsolidierung [d-303]). Einbindung pro App:
-    pip install "zb-shared @ git+https://github.com/Zitzelsberger-Gebaudereinigung-GmbH/zb-shared@v0.2.4"
+    pip install "zb-shared @ git+https://github.com/Zitzelsberger-Gebaudereinigung-GmbH/zb-shared@v0.2.5"
     # mit PDF-Helfer (xhtml2pdf):
-    pip install "zb-shared[pdf] @ git+https://github.com/Zitzelsberger-Gebaudereinigung-GmbH/zb-shared@v0.2.4"
+    pip install "zb-shared[pdf] @ git+https://github.com/Zitzelsberger-Gebaudereinigung-GmbH/zb-shared@v0.2.5"
 
 Module:
     ki_client  — kanonischer KI-Zugang (Vertex-Embeddings EU + Claude direct/Vertex-EU + Modell-Registry)
@@ -12,4 +12,4 @@ Module:
     vertex_transkript — Audio-Transkription ueber Gemini (Vertex, NUR EU-Regionen)
     (geplant)  — weitere Audit-Libs nach Bedarf (vision liegt bereits in ki_client.claude_model)
 """
-__version__ = "0.2.4"
+__version__ = "0.2.5"

@@ -28,6 +28,11 @@ geht auf einen echten Vorfall zurueck; wer sie beim naechsten Aufraeumen
   ohne Protokolleintrag. Betroffen waren Unfallhergaenge, Ticket-Texte,
   Gefaehrdungsbeurteilungen. Jetzt: zwei EU-Regionen als Rueckfall fuereinander,
   keine ausserhalb. Scheitern beide, scheitert der Aufruf **sichtbar**.
+* **Nicht-EU-Regionen werden verworfen** (seit v0.2.5, DSB-Auflage M16).
+  Vorher wurde eine Nicht-EU-Region in `VERTEX_GEMINI_LOCATIONS` nur
+  protokolliert und dann trotzdem benutzt. Jetzt gilt eine Positivliste
+  (`EU_REGIONEN`); bleibt nichts uebrig, liefert die Spracheingabe den Fehler
+  "Spracheingabe nicht verfügbar" (`SpracheingabeNichtVerfuegbar`).
 * **Regionswechsel wird protokolliert** ([log-1258]). Wer nicht sieht, dass
   europe-west1 ausgefallen ist, merkt auch nicht, dass die Anfrage woanders lief.
 * **Wiederholung nur bei 429/5xx** — Quota- und Gateway-Stoerungen sind meist
@@ -53,22 +58,51 @@ from .ki_client import gcp_credentials as _get_credentials
 
 GEMINI_MODEL = os.getenv("VERTEX_GEMINI_MODEL", "gemini-2.5-flash")
 
-#: NUR EU. Siehe Modulkopf — eine nicht-europaeische Region hier ist ein Befund,
-#: kein Feature. Die Umgebungsvariable bleibt, damit im Notfall ohne Deploy
-#: nachgesteuert werden kann; ein Verstoss wird beim Start protokolliert.
-GEMINI_LOCATIONS = [
-    l.strip() for l in os.getenv(
-        "VERTEX_GEMINI_LOCATIONS", "europe-west1,europe-west4"
-    ).split(",") if l.strip()
-]
+#: Google-Cloud-Regionen, die physisch in einem EU-Mitgliedstaat liegen
+#: (Stand 2026-10-15, gegen cloud.google.com/compute/docs/regions-zones geprueft).
+#: Bewusst eine POSITIVLISTE statt `startswith("europe-")`: `europe-west2`
+#: (London) und `europe-west6` (Zuerich) heissen "europe-", liegen aber NICHT in
+#: der EU; `global` und `us-*` sowieso nicht. Neue EU-Regionen hier ergaenzen.
+EU_REGIONEN = frozenset({
+    "europe-west1",       # St. Ghislain, Belgien
+    "europe-west3",       # Frankfurt, Deutschland
+    "europe-west4",       # Eemshaven, Niederlande
+    "europe-west8",       # Mailand, Italien
+    "europe-west9",       # Paris, Frankreich
+    "europe-west10",      # Berlin, Deutschland
+    "europe-west12",      # Turin, Italien
+    "europe-north1",      # Hamina, Finnland
+    "europe-north2",      # Stockholm, Schweden
+    "europe-central2",    # Warschau, Polen
+    "europe-southwest1",  # Madrid, Spanien
+})
 
-_NICHT_EU = [l for l in GEMINI_LOCATIONS if not l.startswith("europe-")]
-if _NICHT_EU:
-    logging.getLogger(__name__).warning(
-        "VERTEX_GEMINI_LOCATIONS enthaelt Region(en) ausserhalb der EU: %s. "
-        "Personenbezogene Inhalte koennen dorthin abfliessen — bitte pruefen, "
-        "ob das gewollt und im Verzeichnis der Verarbeitungstaetigkeiten "
-        "hinterlegt ist.", ", ".join(_NICHT_EU))
+
+class SpracheingabeNichtVerfuegbar(RuntimeError):
+    """Keine EU-Region konfiguriert — die Spracheingabe laeuft dann gar nicht,
+    statt ausserhalb der EU zu laufen (DSB-Auflage M16)."""
+
+
+def _nur_eu(roh: str) -> tuple[list[str], list[str]]:
+    """Teilt eine Komma-Liste in (EU-Regionen, verworfene Regionen)."""
+    alle = [l.strip() for l in (roh or "").split(",") if l.strip()]
+    return ([l for l in alle if l in EU_REGIONEN],
+            [l for l in alle if l not in EU_REGIONEN])
+
+
+#: NUR EU. Siehe Modulkopf. Die Umgebungsvariable bleibt, damit im Notfall ohne
+#: Deploy zwischen EU-Regionen gewechselt werden kann. Regionen ausserhalb der
+#: EU werden seit v0.2.5 VERWORFEN (vorher nur protokolliert, DSB-Auflage M16).
+#: Bleibt keine uebrig, scheitert jeder Aufruf mit `SpracheingabeNichtVerfuegbar`.
+GEMINI_LOCATIONS, VERWORFENE_REGIONEN = _nur_eu(
+    os.getenv("VERTEX_GEMINI_LOCATIONS", "europe-west1,europe-west4"))
+
+if VERWORFENE_REGIONEN:
+    logging.getLogger(__name__).error(
+        "VERTEX_GEMINI_LOCATIONS enthaelt Region(en) ausserhalb der EU: %s — "
+        "VERWORFEN, es wird nur in %s transkribiert.",
+        ", ".join(VERWORFENE_REGIONEN),
+        ", ".join(GEMINI_LOCATIONS) or "KEINER Region (Spracheingabe aus)")
 
 #: HTTP-Status, bei denen ein zweiter Versuch Sinn hat. Bei 400/401/403 waere die
 #: Wiederholung sinnlos — eine abgelehnte Anfrage bleibt abgelehnt.
@@ -102,6 +136,10 @@ def _pruefe_abbruch(cand: dict, location: str) -> None:
 async def _generate(parts: list[dict], generation_config: dict | None = None,
                     timeout: float = 90.0, pruefe_abbruch: bool = False) -> str:
     """Schickt `parts` an Gemini (Vertex), EU-Regionen der Reihe nach."""
+    if not GEMINI_LOCATIONS:
+        raise SpracheingabeNichtVerfuegbar(
+            "Spracheingabe nicht verfügbar: keine EU-Region konfiguriert "
+            "(VERTEX_GEMINI_LOCATIONS)")
     creds = _get_credentials()
     project_id = getattr(creds, "project_id", None)
     if not project_id:
@@ -261,5 +299,7 @@ def verfuegbar() -> bool:
     Bewusst ohne Netzaufruf: Die Oberflaeche will wissen, ob sie den Knopf
     anbieten darf, nicht ob Vertex gerade antwortet.
     """
+    if not GEMINI_LOCATIONS:          # keine EU-Region -> Knopf nicht anbieten
+        return False
     return bool(os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON", "").strip()
                 or os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "").strip())
