@@ -21,6 +21,11 @@ import tempfile
 import threading
 from typing import Literal
 
+from zb_shared import logschutz as _logschutz
+
+# Protokollschutz fuer jede App, die den KI-Client nutzt (v0.2.7, Vorfall 09.11.2026).
+_logschutz.einschalten()
+
 # ── Modell-/Region-Registry (EINE zentrale Stelle) ───────────────────────────
 EMBED_MODEL = os.getenv("VERTEX_EMBED_MODEL", "text-multilingual-embedding-002")
 EMBED_DIM = 768
@@ -68,7 +73,21 @@ def using_vertex() -> bool:
 def ensure_gcp_creds() -> bool:
     """Stellt Application-Default-Credentials bereit: GOOGLE_APPLICATION_CREDENTIALS_JSON
     (Inhalt) -> Temp-Datei -> GOOGLE_APPLICATION_CREDENTIALS. True, wenn Creds verfuegbar."""
-    if os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+    pfad = (os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or "").strip()
+    if pfad.startswith("{"):
+        # v0.2.7: Schlüssel-INHALT steht in der Pfad-Variable (Vorfall 09.11.2026). Früher hiess
+        # es hier „vorhanden“, google-auth versuchte den Inhalt als Datei zu oeffnen und schrieb
+        # ihn in die Fehlermeldung. Jetzt: wie _JSON behandeln, Pfad-Variable ersetzen, warnen
+        # (ohne Inhalt).
+        import logging as _logging
+        _logging.getLogger("zb_shared.ki_client").warning(
+            "GOOGLE_APPLICATION_CREDENTIALS enthaelt JSON statt eines Dateipfads — bitte in "
+            "GOOGLE_APPLICATION_CREDENTIALS_JSON umbenennen. Wird diesmal automatisch umgesetzt.")
+        os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+        if not os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON", "").strip():
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = pfad
+        pfad = ""
+    if pfad:
         return True
     raw = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON", "").strip()
     if not raw:

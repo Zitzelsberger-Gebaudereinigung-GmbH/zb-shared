@@ -12,4 +12,4 @@ Module:
     vertex_transkript — Audio-Transkription ueber Gemini (Vertex, NUR EU-Regionen)
     (geplant)  — weitere Audit-Libs nach Bedarf (vision liegt bereits in ki_client.claude_model)
 """
-__version__ = "0.2.5"
+__version__ = "0.2.7"
