@@ -3,7 +3,8 @@
 Loest die kopierten vertex_embeddings.py + die per-App ANTHROPIC_BACKEND-Switches ab
 (Konsolidierung P2.3, [d-303]). EU-Default (DSGVO, [d-211]):
   * Embeddings: Vertex text-multilingual-embedding-002 (768 Dim, europe-west3)
-  * Claude:     Vertex AI (europe-west1) wenn ANTHROPIC_BACKEND=vertex, sonst direct (US-API)
+  * Claude:     Vertex AI (europe-west1); im Betrieb (Render) ausschliesslich, lokal per
+                ANTHROPIC_BACKEND=direct auch die US-API (siehe IM_BETRIEB unten)
 
 Credentials (Pro-Dienst-Secret statt geteilter Datei, P2.3):
   * GOOGLE_APPLICATION_CREDENTIALS_JSON  — kompletter Service-Account-JSON-Inhalt (Render-Secret), ODER
@@ -20,12 +21,39 @@ import tempfile
 import threading
 from typing import Literal
 
+from zb_shared import logschutz as _logschutz
+
+# Protokollschutz fuer jede App, die den KI-Client nutzt (v0.2.7, Vorfall 09.11.2026).
+_logschutz.einschalten()
+
 # ── Modell-/Region-Registry (EINE zentrale Stelle) ───────────────────────────
 EMBED_MODEL = os.getenv("VERTEX_EMBED_MODEL", "text-multilingual-embedding-002")
 EMBED_DIM = 768
 EMBED_LOCATION = os.getenv("VERTEX_EMBED_LOCATION", "europe-west3")
 CLAUDE_LOCATION = os.getenv("VERTEX_CLAUDE_LOCATION", "europe-west1")
-ANTHROPIC_BACKEND = os.getenv("ANTHROPIC_BACKEND", "direct").strip().lower()
+# Seit 2026-11-03 (v0.2.6): Im Betrieb (Render, Env RENDER gesetzt) laeuft Claude NUR ueber
+# Vertex AI in der EU. Google hat bestaetigt, dass Anthropic dabei kein Unterauftragsverarbeiter
+# ist (Google hostet die Modelle, kein Training, EU) — Auftragsverarbeiter ist allein Google.
+# Fehlt ANTHROPIC_BACKEND auf Render, gilt 'vertex'; steht dort 'direct', liefert get_anthropic_*
+# None (Aufrufer blendet die KI-Funktion aus) statt still an api.anthropic.com (USA) zu gehen.
+# Bewusste Ausnahme nur mit ANTHROPIC_DIREKT_AUSNAHME=<Begruendung> (z. B. ai-news-agent:
+# web_search gibt es nur auf der Direkt-API, keine Personendaten). Lokal bleibt 'direct' moeglich.
+IM_BETRIEB = bool(os.getenv("RENDER"))
+ANTHROPIC_BACKEND = os.getenv("ANTHROPIC_BACKEND", "vertex" if IM_BETRIEB else "direct").strip().lower()
+DIREKT_AUSNAHME = os.getenv("ANTHROPIC_DIREKT_AUSNAHME", "").strip()
+
+
+def direkt_erlaubt() -> bool:
+    """US-Direktweg nur lokal oder mit ausdruecklicher, begruendeter Ausnahme."""
+    return (not IM_BETRIEB) or bool(DIREKT_AUSNAHME)
+
+
+if IM_BETRIEB and ANTHROPIC_BACKEND != "vertex":
+    import logging as _logging
+    _logging.getLogger("zb_shared.ki_client").error(
+        "ANTHROPIC_BACKEND=%r im Betrieb: %s", ANTHROPIC_BACKEND,
+        f"Direktweg per Ausnahme erlaubt ({DIREKT_AUSNAHME})" if DIREKT_AUSNAHME
+        else "Claude-Aufrufe werden verweigert (nur Vertex EU erlaubt)")
 CLAUDE_MODEL_DIRECT = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 # EU-Default: in europe-west1 ist (Stand 2026-06-26) als aktuelles Claude NUR
 # claude-sonnet-4-5@20250929 verfuegbar (sonnet-4-6 existiert dort NICHT -> 404). [L-356]
@@ -45,7 +73,21 @@ def using_vertex() -> bool:
 def ensure_gcp_creds() -> bool:
     """Stellt Application-Default-Credentials bereit: GOOGLE_APPLICATION_CREDENTIALS_JSON
     (Inhalt) -> Temp-Datei -> GOOGLE_APPLICATION_CREDENTIALS. True, wenn Creds verfuegbar."""
-    if os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+    pfad = (os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or "").strip()
+    if pfad.startswith("{"):
+        # v0.2.7: Schlüssel-INHALT steht in der Pfad-Variable (Vorfall 09.11.2026). Früher hiess
+        # es hier „vorhanden“, google-auth versuchte den Inhalt als Datei zu oeffnen und schrieb
+        # ihn in die Fehlermeldung. Jetzt: wie _JSON behandeln, Pfad-Variable ersetzen, warnen
+        # (ohne Inhalt).
+        import logging as _logging
+        _logging.getLogger("zb_shared.ki_client").warning(
+            "GOOGLE_APPLICATION_CREDENTIALS enthaelt JSON statt eines Dateipfads — bitte in "
+            "GOOGLE_APPLICATION_CREDENTIALS_JSON umbenennen. Wird diesmal automatisch umgesetzt.")
+        os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+        if not os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON", "").strip():
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"] = pfad
+        pfad = ""
+    if pfad:
         return True
     raw = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON", "").strip()
     if not raw:
@@ -175,6 +217,8 @@ def get_anthropic_async():
                 return None
             from anthropic import AsyncAnthropicVertex
             return AsyncAnthropicVertex(region=CLAUDE_LOCATION, project_id=_vertex_credentials().project_id)
+        if not direkt_erlaubt():
+            return None
         key = os.getenv("ANTHROPIC_API_KEY")
         if not key:
             return None
@@ -195,6 +239,8 @@ def get_anthropic_sync():
                 return None
             from anthropic import AnthropicVertex
             return AnthropicVertex(region=CLAUDE_LOCATION, project_id=_vertex_credentials().project_id)
+        if not direkt_erlaubt():
+            return None
         key = os.getenv("ANTHROPIC_API_KEY")
         if not key:
             return None
