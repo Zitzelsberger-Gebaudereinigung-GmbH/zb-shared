@@ -5,3 +5,7 @@ build/
 dist/
 .venv/
 venv/
+
+# KI-Replikat-Profile + Sprachausgaben (personenbezogene Daten, gehoeren nicht ins Repo)
+replikate/
+*.mp3
