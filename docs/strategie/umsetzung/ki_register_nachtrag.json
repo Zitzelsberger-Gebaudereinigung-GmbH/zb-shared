@@ -1,0 +1,36 @@
+{
+ "_hinweis": [
+  "Zwei fehlende Registereintraege, fertig zum Einspielen in backend/ki_register.json.",
+  "",
+  "WOZU: scripts/ki_kennzeichnung_wache.py meldet beide Module als",
+  "'NICHT IM REGISTER - weder eingestuft noch gekennzeichnet' (Stand Build 914).",
+  "Sie sind nach dem Register-Pruefstand neu dazugekommen: fahrzeugkontrolle.py",
+  "mit Build 886, objektmappe_ortsweg.py mit Build 894.",
+  "",
+  "EINSPIELEN: Die beiden Schluessel unter 'module' in die Datei",
+  "backend/ki_register.json uebernehmen (alphabetisch einsortiert), dann",
+  "  python scripts/ki_kennzeichnung_wache.py",
+  "Erwartung danach: 'NICHT IM REGISTER' ist leer, 91 von 91 im Register.",
+  "",
+  "BEIDE TRAGEN 'BELEGT', NICHT 'PRUEFEN': Die Kennzeichnung steht in beiden",
+  "Faellen schon in der Oberflaeche bzw. im Text selbst - die Fundstellen sind",
+  "im Feld 'kennzeichnung' genannt und wurden am 17.11.2026 im Code geprueft.",
+  "Bitte beim Einspielen einmal gegenlesen, ob die Zeilennummern noch stimmen."
+ ],
+ "module": {
+  "fahrzeugkontrolle.py": {
+   "zweck": "Fasst die Maengel einer monatlichen Fahrzeugkontrolle zu einem Text fuer das Serviceticket zusammen und schlaegt Ersatzteile ausschliesslich aus der Teileliste dieses Fahrzeugs vor.",
+   "reicht_zu_mensch": true,
+   "kennzeichnung": "BELEGT: Jeder Befund beginnt mit KI_KOPF (fahrzeugkontrolle.py:68) „🤖 Zusammenfassung von KI (Gemini, EU) – die Angaben der Fahrerin bzw. des Fahrers stehen oben“. Der Text erscheint im Ticketverlauf als Eintrag 'ki_zusammenfassung'.",
+   "ai_act": "transparenz",
+   "begruendung": "Sachbezogen (Fahrzeug), kein Beschaeftigtenbezug: zusammengefasst werden Maengel am Fahrzeug, nicht das Verhalten der Fahrerin bzw. des Fahrers. Die KI entscheidet nichts — kein Ticket, keine Prioritaet (vertex_gemini.py:682); Teilevorschlaege nur aus der uebergebenen Liste und vom Aufrufer zusaetzlich gegen diese Liste geprueft. Faellt der Aufruf aus, bleibt die Meldung vollstaendig bestehen (KI ist Zugabe, nicht Voraussetzung)."
+  },
+  "objektmappe_ortsweg.py": {
+   "zweck": "Prueft jedes Wegfoto der Objektmappe auf Personen, Bildschirme und Codes, verpixelt die Funde und schlaegt je Schritt einen Kurzsatz vor (19 Sprachen).",
+   "reicht_zu_mensch": true,
+   "kennzeichnung": "BELEGT: ortsweg.js:390 „KI-Vorschlag — bitte pruefen.“ am Kurzsatz; ortsweg.js:381 nennt vor der Freigabe, was die KI gefunden und wie viele Bereiche sie verpixelt hat; ortsweg.js:13 erklaert den Ablauf („KI schlaegt den Satz vor und verpixelt Personen/Bildschirme/Codes“).",
+   "ai_act": "transparenz",
+   "begruendung": "Kein Personenranking und keine Bewertung: Die KI dient dem Datenschutz (Verpixeln VOR dem Speichern) und einer Textvorlage. Ohne KI-Pruefung wird nichts gespeichert, auch kein Entwurf (objektmappe_ortsweg.py:535 f.); gespeichert wird nur die verpixelte, verkleinerte Fassung, EXIF/GPS werden vorher entfernt. Sichtbar wird ein Weg erst nach menschlicher Freigabe mit Pflicht-Haken „Keine Personen, Bildschirme oder Codes zu sehen“ (objektmappe_ortsweg.py:42). Transparenz statt minimal, weil ein Mensch den erzeugten Kurzsatz liest — anders als bei den reinen Uebersetzer-Modulen."
+  }
+ }
+}
