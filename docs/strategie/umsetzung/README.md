@@ -17,6 +17,43 @@ nicht nur geschrieben:
 
 ---
 
+## Schritt 0 · Welle C1a liegt fertig als Patch bereit
+
+`0001-Build-915-Entflechtung-C1a-Geraete-Bestand-als-eigen.patch` enthält die **erste
+Entflechtungswelle vollständig ausgeführt**: das Geräte-Bestand-Modul ist aus `main.py`
+heraus, inklusive Register, Build-Bump, Paritätswerkzeug und Runbook. Schritt 1 und 2
+unten sind darin bereits enthalten.
+
+```bash
+git checkout -b entflechtung-c1a origin/main
+git am < 0001-Build-915-Entflechtung-C1a-Geraete-Bestand-als-eigen.patch
+python scripts/routen_paritaet_test.py --vergleiche konsolidierung/c1a/routen-build914.json
+```
+
+| | vorher | nachher |
+|---|---:|---:|
+| `main.py` Zeilen | 22.729 | **22.036** |
+| Routen in `main.py` | 458 | **443** |
+| Routen gesamt | 1.856 | **1.856** |
+
+**Geprüft** (gegen `cc697dc`, nach `git am` auf frischem Stand wiederholt): `py_compile`
+beide Dateien · Routen-Parität 1.856 → 1.856, 15 umgezogen, 0 verloren, 0 neu · keine
+unaufgelösten Namen im neuen Modul · unaufgelöste Namen in `main.py` vorher/nachher
+identisch · Wache ohne Befund.
+
+**Nicht geprüft:** Laufzeitverhalten — der Rauchtest in `konsolidierung/c1a/RUNBOOK.md`
+Schritt 5 ist Pflicht vor dem Merge. Er ist so zugeschnitten, dass die vier Wege genau die
+14 injizierten Helfer abdecken.
+
+Der wichtigste Befund dabei: **sechs Helfer des Blocks werden vom Rest der `main.py` noch
+gebraucht** (`_geraete_tuer`, `_ist_geraete_user`, `_ist_techdienst`, `_zentrallager_id`,
+`_geraete_foto_upload`, `_norm_sn`) — `main.py` reicht sie an `geraete_verwaltung` und
+`geraete_ersatzteile` weiter. Ein naiver Schnitt hätte vier Modul-Verdrahtungen zerrissen,
+und weder `py_compile` noch der Paritätstest hätten das gemeldet. Diese Kollisionsprüfung
+gehört vor jede weitere Welle.
+
+---
+
 ## Schritt 1 · Register-Nachtrag (20 Minuten, kein Risiko)
 
 Die Wache meldet zwei Module, die nach dem Prüfstand dazugekommen sind:
